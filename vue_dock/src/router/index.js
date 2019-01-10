@@ -11,18 +11,19 @@ export default new Router({
       path: '/',
       name: 'home',
       component: home,
-      meta: {
-        display: true
-      },
       children:[
         {
           path:'/',
+          name: '哈哈哈哈哈哈',
+          icon: 'bookmarks',
           component:()=>import('@/views/test')
         },
         {
           path:'test1',
+          name: '好矮好好',
+          icon: 'dns',
           component:()=>import('@/views/test1')
-        }
+        },
 
       ]
     },
@@ -30,9 +31,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login,
-      meta: {
-        display: false
-      }
     },
   ]
 })

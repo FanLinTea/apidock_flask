@@ -1,12 +1,16 @@
 <template>
     <div class="app_con">
         <el-container>
-          <el-aside width="140px">
+          <el-aside width="150px">
             <my-menu></my-menu>
           </el-aside>
           <el-container>
-            <el-header>Header</el-header>
-            <el-main>Main</el-main>
+            <el-header height="64px">
+              <top-bar></top-bar>
+            </el-header>
+            <el-main>
+              <router-view></router-view>
+            </el-main>
           </el-container>
         </el-container>
     </div>
@@ -19,7 +23,7 @@ import topBar from '@/components/topBar'
         name: "home",
         components: {
             myMenu,
-            topBar
+            topBar,
         }
     }
 </script>
@@ -30,23 +34,31 @@ import topBar from '@/components/topBar'
     display: flex;
 }
 .el-header, .el-footer {
-    background-color: #B3C0D1;
+    background-color: #F7F7FF;
     color: #333;
     text-align: center;
     line-height: 60px;
+    padding-right: 0;
+    padding-left: 10px;
+    -moz-box-shadow:1px 1px 5px 1px #cfd8dc inset;
+    -webkit-box-shadow:1px 1px 5px 1px #cfd8dc inset;
+    box-shadow:1px 1px 5px 1px #cfd8dc inset;
   }
 
 .el-aside {
-  background-color: #D3DCE6;
+  background-color: #F7F7FF;
   color: #333;
   text-align: center;
   /*line-height: 200px;*/
 }
 
 .el-main {
-  background-color: #E9EEF3;
+  background-color: #F7F7FF;
   color: #333;
   text-align: center;
   line-height: 160px;
+  -moz-box-shadow:1px 1px 5px 1px #ffffff inset;
+  -webkit-box-shadow:1px 1px 5px 1px #cfd8dc inset;
+  box-shadow:2px 1px 6px 1px #cfd8dc inset;
 }
 </style>

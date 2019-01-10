@@ -1,89 +1,70 @@
 <template>
-    <div style="width: 100%;height: 100%;overflow: hidden">
-      <div style="height: 66px;width: 100%;background: #ffffff;box-shadow:1px 1px 5px 1px #cfd8dc;">
-        <img src="../assets/logo.jpg" style="max-height: 40px;margin-top: 12px">
+    <div style="width: 100%;height: 100%;overflow: hidden" @click="">
+      <div style="height: 64px;width: 100%;background: #ffffff;box-shadow:3px 3px 5px 3px #e0e0e0;">
+        <img src="../assets/logo.jpg" style="max-height: 34px;margin-top: 12px">
       </div>
-      <div style="width: 100%;background: #ffffff;margin-top: 2px;height: 100%">
+      <div style="width: 100%;background: #ffffff;margin-top: 2px;height: 100%;">
+        <div style="height: 30px"></div>
+        <mu-button class="mu-button"
+                   flat color="#ffffff"
+                   textColor="#A2B5CD"
+                   :class="{icon_bg:css===i.name}"
+                   @click="click_but(i.name)"
+                   v-for="i in routes"
+                   :to="i.path">
+          <mu-icon class="mu-icon" left :value=i.icon :class="{icon_bg:css===i.name}"></mu-icon>
+          <P class="p" :class="{p2:css===i.name}">{{i.name}}</P>
+        </mu-button>
 
       </div>
 
     </div>
-
-
-  <!--<div class="flex-demo">-->
-        <!--<div style="height: 66px;width: 100%;background: #ffffff;box-shadow:1px 1px 5px 1px #cfd8dc;">-->
-          <!--<img src="../assets/logo.jpg" style="max-width: 100px;margin-top: 12%;">-->
-        <!--</div>-->
-        <!--<div style="height:100%;width: 100%;background: #ffffff;margin-top: 4px;box-shadow:1px 1px 5px 1px #cfd8dc;">-->
-
-            <!--<mu-button class="mu-button"-->
-                       <!--flat color="#ffffff"-->
-                       <!--style="margin-top: 30px;"-->
-                       <!--textColor="#A2B5CD"-->
-                       <!--:class="{icon_bg:css===1}"-->
-                       <!--@click="click_but(1)">-->
-              <!--<mu-icon class="mu-icon" left value="grade" :class="{icon_bg:css===1}"></mu-icon>-->
-              <!--<P class="p" style="font-size: 12px" :class="{icon_bg:css===1}">Star</P>-->
-            <!--</mu-button>-->
-
-            <!--<mu-button class="mu-button" flat color="#ffffff" textColor="#A2B5CD" @click="click_but(2)" :class="{icon_bg:css===2}">-->
-              <!--<mu-icon class="mu-icon" left value="grade" :class="{icon_bg:css===2}"></mu-icon>-->
-              <!--<P class="p" style="font-size: 12px" :class="{icon_bg:css===2}">Star</P>-->
-            <!--</mu-button>-->
-        <!--</div>-->
-
-        <!--</div>-->
-
 </template>
 
 <script>
-    export default {
-        name: "LeftMenu",
-        data() {
-          return {
-            css:'',
-          }
-        },
-        methods: {
-          click_but(x) {
-            this.css = x
-          }
-        },
-    }
+
+
+export default {
+    name: "LeftMenu",
+    data() {
+      return {
+        css:'',
+        routes:this.$router.options.routes[0].children,
+      }
+    },
+  created() {
+  },
+    methods: {
+      click_but(name, path) {
+        this.css = name
+      }
+    },
+}
 </script>
 
 <style scoped>
-/*.flex-wrapper {*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*margin-top: 8px;*/
-/*}*/
-/*.flex-demo {*/
-  /*width: 200px;*/
-  /*height: 100%;*/
-  /*text-align: center;*/
-  /*line-height: 32px;*/
-  /*margin-left: 8px;*/
-/*}*/
-/*.flex-wrapper:first-child {*/
-  /*margin-top: 0;*/
-/*}*/
-/*.flex-demo:first-child {*/
-  /*margin-left: 0;*/
-/*}*/
-/*.mu-button {*/
-  /*float:left;*/
-  /*width: 100%;*/
-  /*height: 60px;*/
-/*}*/
-/*.mu-icon {*/
-  /*margin-left: -36px;*/
-/*}*/
-/*.p {*/
-  /*font-size: 12px*/
-/*}*/
-/*.icon_bg {*/
-  /*color: #1503EF;*/
-  /*background: #eceff1;*/
-/*}*/
+
+.mu-button {
+  float:left;
+  width: 100%;
+  height: 66px;
+}
+.mu-icon {
+  position: absolute;
+  left: 14px;
+  margin-right: 10px;
+}
+.p {
+  font-size: 12px;
+  position: absolute;
+  left: 50px;
+  margin: 0 0;
+}
+.p2{
+  color: #1503EF;
+}
+.icon_bg {
+  color: #1503EF;
+  background: #eceff1;
+}
 </style>
