@@ -1,7 +1,7 @@
 <template>
     <div style="width: 100%;height: 100%;overflow: hidden" @click="">
-      <div style="height: 64px;width: 100%;background: #ffffff;box-shadow:3px 3px 5px 3px #e0e0e0;">
-        <img src="../assets/logo.jpg" style="max-height: 34px;margin-top: 12px">
+      <div style="height: 70px;width: 100%;background: #ffffff;box-shadow:3px 3px 5px 3px #e0e0e0;">
+        <img src="../assets/logo.jpg" style="max-height: 34px;margin-top: 20px">
       </div>
       <div style="width: 100%;background: #ffffff;margin-top: 2px;height: 100%;">
         <div style="height: 30px"></div>
@@ -11,11 +11,11 @@
                    :class="{icon_bg:css===i.name}"
                    @click="click_but(i.name)"
                    v-for="i in routes"
+                   :key="i.name"
                    :to="i.path">
           <mu-icon class="mu-icon" left :value=i.icon :class="{icon_bg:css===i.name}"></mu-icon>
           <P class="p" :class="{p2:css===i.name}">{{i.name}}</P>
         </mu-button>
-
       </div>
 
     </div>
@@ -51,13 +51,13 @@ export default {
 }
 .mu-icon {
   position: absolute;
-  left: 14px;
+  left: 18px;
   margin-right: 10px;
 }
 .p {
   font-size: 12px;
   position: absolute;
-  left: 50px;
+  left: 54px;
   margin: 0 0;
 }
 .p2{
