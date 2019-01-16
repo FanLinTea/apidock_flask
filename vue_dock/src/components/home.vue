@@ -1,13 +1,10 @@
 <template>
     <div class="app_con">
         <el-container>
-          <el-aside width="150px">
+          <el-aside width="140px">
             <my-menu></my-menu>
           </el-aside>
           <el-container>
-            <el-header height="70px">
-              <top-bar></top-bar>
-            </el-header>
             <el-main>
               <router-view></router-view>
             </el-main>
@@ -18,12 +15,10 @@
 
 <script>
 import myMenu from '@/components/LeftMenu'
-import topBar from '@/components/topBar'
     export default {
         name: "home",
         components: {
             myMenu,
-            topBar,
         }
     }
 </script>
@@ -56,7 +51,8 @@ import topBar from '@/components/topBar'
   background-color: #F7F7FF;
   color: #333;
   text-align: center;
-  line-height: 160px;
+  line-height: 100%;
+  padding: 0;
   -moz-box-shadow:1px 1px 5px 1px #ffffff inset;
   -webkit-box-shadow:1px 1px 5px 1px #cfd8dc inset;
   box-shadow:2px 1px 6px 1px #cfd8dc inset;

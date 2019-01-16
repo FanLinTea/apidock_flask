@@ -11,7 +11,7 @@ import Vuex from 'vuex'
 
 Vue.use(MuseUI);
 Vue.use(ElementUI);
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 Vue.config.productionTip = false
 
