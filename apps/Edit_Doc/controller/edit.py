@@ -22,7 +22,7 @@ def create_doc():
     info = re.match(r'(?!((^(con)$)|^(con)/..*|(^(prn)$)|^(prn)/..*|(^(aux)$)|^(aux)/..*|(^(nul)$)|^(nul)/..*|(^(com)[1-9]$)|^(com)[1-9]/..*|(^(lpt)[1-9]$)|^(lpt)[1-9]/..*)|^/s+|.*/s$)(^[^/////:/*/?/"/</>/|]{1,255}$)', file_name)
     if info:
         try:
-            f = open(f'apidoc_py/{file_name}')
+            f = open(f'utils/{file_name}')
             message = json.dumps({'message: '})
         except Exception as e:
             print(e)

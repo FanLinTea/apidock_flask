@@ -7,11 +7,22 @@ import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+import axios from '@/request.js';
+import {dm_config,apidoc} from '@/http_head.js';
 
 Vue.use(MuseUI);
 Vue.use(ElementUI);
 Vue.use(Vuex);
+
+Vue.prototype.$dm_config = {
+  post: function (url, data) {
+    return axios.post(`${dm_config}${url}`,data)
+  },
+  get: function (url, data) {
+    return axios.post(`${dm_config}${url}`,data)
+  },
+}
 
 Vue.config.productionTip = false
 

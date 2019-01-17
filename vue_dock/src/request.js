@@ -1,10 +1,11 @@
 import axios from 'axios'
-import store from '@/store'
  // 创建axios实例
 const service = axios.create({
-  baseURL: ' https://easy-mock.com/mock/5a45f7b3105bf467fbd51960/example',
   timeout: 15000 // 请求超时时间
 })
+
+
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 service.interceptors.response.use(
     function(response) {
@@ -18,9 +19,8 @@ service.interceptors.response.use(
         status:error.response.status,
         statusText:error.response.statusText
       }
-      store.commit('ON_HTTP_ERROR', httpError)
       return Promise.reject(error)
     }
   )
 
-  export default service
+export default service
