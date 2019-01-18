@@ -20,7 +20,16 @@ Vue.prototype.$dm_config = {
     return axios.post(`${dm_config}${url}`,data)
   },
   get: function (url, data) {
-    return axios.post(`${dm_config}${url}`,data)
+    return axios.post(`${dm_config}${url}`)
+  },
+}
+
+Vue.prototype.$apidoc = {
+  post: function (url, data) {
+    return axios.post(`${apidoc}${url}`,data)
+  },
+  get: function (url, data) {
+    return axios.post(`${apidoc}${url}`)
   },
 }
 

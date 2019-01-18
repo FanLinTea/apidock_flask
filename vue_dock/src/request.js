@@ -6,6 +6,7 @@ const service = axios.create({
 
 
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 service.interceptors.response.use(
     function(response) {

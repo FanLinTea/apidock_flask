@@ -1,11 +1,10 @@
-import flask
-from apps.AllController import create_app
+from settings.AppConfig import create_app
 
 from gevent import monkey
-from gevent.pywsgi import WSGIServer
+
 monkey.patch_all()
 
-app = create_app('Dev')
+app = create_app('dev')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

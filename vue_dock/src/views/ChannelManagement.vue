@@ -31,12 +31,12 @@
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">北京</p>
               <div style="float: right;height: 100%;margin-right: 30px;width: 200px;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
-                  <p style="margin-top: 12px;float: right;color: #bdbdbd;">类型</p>
-                  <p style="float: bottom;margin-top: 46px;font-size: 16px;color: #424242">公寓</p>
+                  <p style="margin-top: 12px;float: right;color: #bdbdbd;">房源类型</p>
+                  <p style="float: bottom;margin-top: 44px;font-size: 16px;color: #424242">公寓</p>
                 </div>
                 <div style="display: inline-block;float: right;margin-left: 20px">
-                  <p style="margin-top: 12px;float: right;color: #bdbdbd;">company_id</p>
-                  <p style="float: bottom;margin-top: 46px;font-size: 16px;color: #424242">39</p>
+                  <p style="margin-top: 12px;float: right;color: #bdbdbd;">拥有者</p>
+                  <p style="float: bottom;margin-top: 44px;font-size: 16px;color: #424242">汪洋</p>
                 </div>
               </div>
             </mu-paper>
@@ -141,7 +141,10 @@
           setTimeout(()=>this.progress=80 ,500);
         },
         test() {
-          this.$dm_config.post('config/getcityinfo', {'sad':'asd'}).then(r => {
+          let a = {
+            "name": "wang"
+          }
+          this.$apidoc.post('internalpage/select_channel', a).then(r => {
             console.log(r)
           }).catch(error => {
             console.log(error)
