@@ -1,8 +1,8 @@
 from settings.AppConfig import create_app
 
-from gevent import monkey
+# from gevent import monkey
 
-monkey.patch_all()
+# monkey.patch_all()
 
 app = create_app('dev')
 

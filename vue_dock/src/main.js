@@ -10,7 +10,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Vuex from 'vuex';
 import axios from '@/request.js';
 import {dm_config,apidoc} from '@/http_head.js';
+import Toast from 'muse-ui-toast';
 
+Vue.use(Toast);
 Vue.use(MuseUI);
 Vue.use(ElementUI);
 Vue.use(Vuex);
@@ -41,4 +43,15 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
+  methods: {
+    toast () {
+      this.$toast.message('hello world');
+      this.$toast.success('hello world');
+      this.$toast.info('hello world');
+      this.$toast.warning('hello world');
+      this.$toast.error('hello world');
+    }
+  }
 })
+
+

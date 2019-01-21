@@ -2,9 +2,17 @@
     <div class="top">
       <!--导航栏-->
       <div style="height: 70px;margin-left: 20px;background-color: #ffffff;box-shadow:1px 1px 5px 1px #e0e0e0;">
-        <mu-text-field v-model="top_mu_company" placeholder="渠道名 or 渠道id......" class="mu_input" style="width: 220px"></mu-text-field>
-        <mu-auto-complete :data="top_mu_citys" placeholder="城市" :max-search-results="5"  v-model="top_mu_city" open-on-focus class="mu_input" style="width: 140px"></mu-auto-complete>
-        <mu-button round color="#1503EF" style="margin-top: 20px;margin-left:24px;max-height: 32px" class="mu_input" @click="test">搜索</mu-button>
+        <mu-auto-complete v-model="top_mu_company"  open-on-focus
+                       placeholder="渠道名 or 渠道id......"
+                       class="mu_input" style="width: 220px"
+                       :max-search-results="5"
+                       :data="input_data.channels"
+                       ></mu-auto-complete>
+        <mu-auto-complete :data="input_data.citys" placeholder="城市"
+                          :max-search-results="5"  v-model="top_mu_city"
+                          open-on-focus class="mu_input"
+                          style="width: 140px"></mu-auto-complete>
+        <mu-button round color="#1503EF" style="margin-top: 20px;margin-left:24px;max-height: 32px" class="mu_input" @click="search">搜索</mu-button>
         <!--头像-->
         <mu-menu cover placement="bottom-end" style="margin-top: 8px;float: right;margin-right: 30px">
           <span style="float: left;margin-right: 20px;margin-top: 20px;font-size: 16px;color: #757575">诸葛找房</span>
@@ -123,33 +131,59 @@
         return {
           but: false,
           progress: '',
-            activeIndex: '1',
-            activeIndex2: '1',
-            top_mu_company: '',
-            top_mu_city: '',
-            top_mu_citys: ['北京','上海','乌鲁木齐'],
-            paper_details: false,
+          activeIndex: '1',
+          activeIndex2: '1',
+          top_mu_company: '',
+          top_mu_city: '',
+          top_mu_citys: ['北京','上海','乌鲁木齐'],
+          paper_details: false,
+          all_channel: [],
+          input_data: {
+            channels: [],
+            citys: [],
+            company_id: []
+          },
+          select_channels: [],
+          select_citys: [],
           };
         },
+
+      created() {
+        this.all_channels()
+      },
+
       methods: {
-        handleSelect(key, keyPath) {
-          console.log(key, keyPath);
-        },
+        //  bad占比动画
         OpenDetails() {
           this.paper_details = true
-
           setTimeout(()=>this.progress=80 ,500);
         },
-        test() {
-          let a = {
-            "name": "wang"
-          }
-          this.$apidoc.post('internalpage/select_channel', a).then(r => {
-            console.log(r)
-          }).catch(error => {
-            console.log(error)
+        //  所有渠道
+        all_channels() {
+          this.$apidoc.get('internalpage/all_channel').then( Response=> {
+            this.all_channel = Response.data
+            this.input_data.channels = this.all_channel.source_name
+            this.input_data.citys = this.all_channel.city
+            this.input_data.company_id = this.all_channel.company_id
           })
-        }
+        },
+        //  搜索渠道
+        search() {
+          let company = this.top_mu_company
+          let city = this.top_mu_city
+          if (company || city) {
+              this.$apidoc.post('internalpage/select_channel', {'company': company, 'city': city}).then( Response => {
+                console.log(Response)
+              }).catch( error => {
+                console.log(error)
+              })
+          }else {
+            this.$toast.error('请填写渠道名 or 城市');
+          }
+        },
+        test() {
+          console.log(this.top_mu_company)
+        },
       }
     }
 </script>

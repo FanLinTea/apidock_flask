@@ -40,7 +40,7 @@ class Connect_mysql(object):
     只需要调取 thread_sql 方法  注意参数是列表
     '''
 
-    mysql_data = []
+
     _mysql_config = db_config.Mysql
 
     def __init__(self, mysql_name):
@@ -56,6 +56,7 @@ class Connect_mysql(object):
 
         #  线程池
         self.thread_poll = threadpool.ThreadPool(5)
+        # self.mysql_data = []
 
     def select_sql(self, sql=''):
         conn = self.pool.connection()
@@ -65,7 +66,7 @@ class Connect_mysql(object):
             data = cursor.fetchall()
             # print('查询出的数据是: ', data)
             cursor.close()
-            self.mysql_data.append(data)
+            # self.mysql_data.append(data)
             return data
         except Exception as e:
             pass
@@ -80,10 +81,11 @@ class Connect_mysql(object):
             cursor.execute(sql)
             info = cursor.rowcount
             if info:
-                self.mysql_data.append(info)
+                pass
+                # self.mysql_data.append(info)
                 # print('操作数据库成功')
             else:
-                return ['数据库操作失败', sql]
+                print('数据库操作失败', sql)
                 # print('数据库操作失败')
                 # print(sql)
             conn.commit()
@@ -94,20 +96,21 @@ class Connect_mysql(object):
             cursor.close()
             conn.close()
 
-    def thread_sql(self, sqls):
-        '''线程池启动'''
-        if not isinstance(sqls, list):
-            raise Exception('请把需要执行的所有 sql 语句放入列表中,即使是单条sql语句,这样才能给线程池传参')
-        if 'select' in sqls[0]:
-            request = threadpool.makeRequests(self.select_sql, sqls)
-            for req in request:
-                self.thread_poll.putRequest(req)
-            self.thread_poll.wait()
-            return self.mysql_data
-
-        else:
-            request = threadpool.makeRequests(self.other_sql, sqls)
-            for req in request:
-                self.thread_poll.putRequest(req)
-            self.thread_poll.wait()
-            return self.mysql_data
+    # def thread_sql(self, sqls):
+    #     '''线程池启动'''
+    #     if not isinstance(sqls, list):
+    #         raise Exception('请把需要执行的所有 sql 语句放入列表中,即使是单条sql语句,这样才能给线程池传参')
+    #     if 'select' in sqls[0]:
+    #         request = threadpool.makeRequests(self.select_sql, sqls)
+    #         print(request)
+    #         for req in request:
+    #             self.thread_poll.putRequest(req)
+    #         self.thread_poll.wait()
+    #         return self.mysql_data
+    #
+    #     else:
+    #         request = threadpool.makeRequests(self.other_sql, sqls)
+    #         for req in request:
+    #             self.thread_poll.putRequest(req)
+    #         self.thread_poll.wait()
+    #         return self.mysql_data
