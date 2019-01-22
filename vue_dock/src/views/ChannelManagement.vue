@@ -35,22 +35,36 @@
         <el-row style="height: 100%;width: 100%">
           <!--内容区域-->
           <el-col :span="7" style="overflow-y:auto;height:100%;">
-            <mu-paper class="mu-paper" :z-depth="3" v-for="i in 15" @click="OpenDetails">
-              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">北京</p>
+
+            <mu-paper class="mu-paper" :z-depth="3" v-for="i in channels_left_label" @click="OpenDetails" v-if="i.ctime">
+              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{i.source_name}}</p>
+              <div style="float: right;height: 100%;margin-right: 30px;width: 200px;">
+                <!--<div style="display: inline-block;float: right;margin-left: 26px">-->
+                  <!--<p style="margin-top: 14px;float: right;color: #bdbdbd;"></p>-->
+                  <!--<p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242"></p>-->
+                <!--</div>-->
+                <div style="display: inline-block;float: right;margin-left: 20px">
+                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">创建时间</p>
+                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{i.ctime}}</p>
+                </div>
+              </div>
+            </mu-paper>
+
+            <mu-paper class="mu-paper" :z-depth="3" v-for="i in channels_left_label" @click="OpenDetails" v-else>
+              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{i.city_name}}</p>
               <div style="float: right;height: 100%;margin-right: 30px;width: 200px;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
-                  <p style="margin-top: 12px;float: right;color: #bdbdbd;">房源类型</p>
-                  <p style="float: bottom;margin-top: 44px;font-size: 16px;color: #424242">公寓</p>
+                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">更新数量</p>
+                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{i.num}}</p>
                 </div>
                 <div style="display: inline-block;float: right;margin-left: 20px">
-                  <p style="margin-top: 12px;float: right;color: #bdbdbd;">拥有者</p>
-                  <p style="float: bottom;margin-top: 44px;font-size: 16px;color: #424242">汪洋</p>
+                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">更新时间</p>
+                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{i.time}}</p>
                 </div>
               </div>
             </mu-paper>
           </el-col>
           <el-col :span="9" style="height:100%;margin-left: 30px">
-
             <mu-paper :z-depth="3" style="height: calc(100% - 14px);width: 98%;overflow-y:auto;" v-if="paper_details">
               <div style="float: left;margin-left: 20px;width: 90%">
                   <p style="margin-top: 20px;float: left;color: #bdbdbd;">source_name</p>
@@ -145,6 +159,7 @@
           },
           select_channels: [],
           select_citys: [],
+          channels_left_label:[],
           };
         },
 
@@ -164,16 +179,15 @@
             this.all_channel = Response.data
             this.input_data.channels = this.all_channel.source_name
             this.input_data.citys = this.all_channel.city
-            this.input_data.company_id = this.all_channel.company_id
           })
         },
         //  搜索渠道
         search() {
-          let company = this.top_mu_company
+          let channel = this.top_mu_company
           let city = this.top_mu_city
-          if (company || city) {
-              this.$apidoc.post('internalpage/select_channel', {'company': company, 'city': city}).then( Response => {
-                console.log(Response)
+          if (channel || city) {
+              this.$apidoc.post('internalpage/select_channel', {'channel': channel, 'city': city}).then( Response => {
+                this.channels_left_label = Response.data
               }).catch( error => {
                 console.log(error)
               })
