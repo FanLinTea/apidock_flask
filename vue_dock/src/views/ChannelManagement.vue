@@ -36,13 +36,13 @@
           <!--内容区域-->
           <el-col :span="7" style="overflow-y:auto;height:100%;">
 
-            <mu-paper class="mu-paper" :z-depth="3" v-for="i in channels_left_label" @click="OpenDetails" v-if="i.ctime">
-              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{i.source_name}}</p>
-              <div style="float: right;height: 100%;margin-right: 30px;width: 200px;">
-                <!--<div style="display: inline-block;float: right;margin-left: 26px">-->
-                  <!--<p style="margin-top: 14px;float: right;color: #bdbdbd;"></p>-->
-                  <!--<p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242"></p>-->
-                <!--</div>-->
+            <mu-paper class="mu-paper" :z-depth="3" v-for="i in channels_left_label"
+                      v-if="input_select_city && !input_select_channel" :key="i.id"
+                      @mouseover="mouseover(i.id)" @mouseout="mouseout" @click="OpenDetails"
+                      :class="{'lab_sty':label_style===i.id}">
+              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242;overflow: hidden;
+text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-height:20px">{{i.source_name}}</p>
+              <div style="float: right;height: 100%;margin-right: 30px;max-width: 40%;">
                 <div style="display: inline-block;float: right;margin-left: 20px">
                   <p style="margin-top: 14px;float: right;color: #bdbdbd;">创建时间</p>
                   <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{i.ctime}}</p>
@@ -50,19 +50,23 @@
               </div>
             </mu-paper>
 
-            <mu-paper class="mu-paper" :z-depth="3" v-for="i in channels_left_label" @click="OpenDetails" v-else>
-              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{i.city_name}}</p>
-              <div style="float: right;height: 100%;margin-right: 30px;width: 200px;">
+            <mu-paper class="mu-paper" :z-depth="3" v-for="s in channels_left_label"  :key="s.city_name"
+                      v-if="!input_select_city && input_select_channel || input_select_city && input_select_channel"
+                      @mouseover="mouseover(s.city_name)" @mouseout="mouseout" @click="OpenDetails"
+                      :class="{'lab_sty':label_style===s.city_name}">
+              <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{s.city_name}}</p>
+              <div style="float: right;height: 100%;margin-right: 6%;max-width: 60%;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
                   <p style="margin-top: 14px;float: right;color: #bdbdbd;">更新数量</p>
-                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{i.num}}</p>
+                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{s.num}}</p>
                 </div>
                 <div style="display: inline-block;float: right;margin-left: 20px">
                   <p style="margin-top: 14px;float: right;color: #bdbdbd;">更新时间</p>
-                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{i.time}}</p>
+                  <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{s.time}}</p>
                 </div>
               </div>
             </mu-paper>
+
           </el-col>
           <el-col :span="9" style="height:100%;margin-left: 30px">
             <mu-paper :z-depth="3" style="height: calc(100% - 14px);width: 98%;overflow-y:auto;" v-if="paper_details">
@@ -70,7 +74,6 @@
                   <p style="margin-top: 20px;float: left;color: #bdbdbd;">source_name</p>
                   <div style="width: 100%;height: 6px;float: right"></div>
                   <p style="float: left;margin:0;font-size: 16px;color: #424242;">quanzhou-ChuanglianfangchanRent</p>
-
               </div>
               <!--分割线-->
               <div style="width: 94%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
@@ -116,7 +119,7 @@
                 </el-collapse-item>
               </el-collapse>
             </mu-paper>
-            <p v-else style="margin-top: 40px;color: #757575">请点击城市标签</p>
+            <p v-else style="margin-top: 40px;color: #757575">请点击左侧标签</p>
           </el-col>
 
           <el-col :span="7" style="height:100%;margin: 0;padding: 0;border: 0">
@@ -149,6 +152,8 @@
           activeIndex2: '1',
           top_mu_company: '',
           top_mu_city: '',
+          input_select_channel: '',
+          input_select_city: '',
           top_mu_citys: ['北京','上海','乌鲁木齐'],
           paper_details: false,
           all_channel: [],
@@ -160,6 +165,7 @@
           select_channels: [],
           select_citys: [],
           channels_left_label:[],
+          label_style: false,
           };
         },
 
@@ -185,15 +191,30 @@
         search() {
           let channel = this.top_mu_company
           let city = this.top_mu_city
+          this.input_select_channel = channel
+          this.input_select_city = city
           if (channel || city) {
               this.$apidoc.post('internalpage/select_channel', {'channel': channel, 'city': city}).then( Response => {
                 this.channels_left_label = Response.data
+                console.log('ssssssssssddddddddd',this.channels_left_label)
               }).catch( error => {
                 console.log(error)
               })
           }else {
             this.$toast.error('请填写渠道名 or 城市');
           }
+        },
+
+        mouseover(data) {
+            this.label_style = data
+        },
+        mouseout() {
+          this.label_style = false
+        },
+
+        OpenDetails() {
+          this.paper_details = true
+          setTimeout(()=>this.progress=80 ,500);
         },
         test() {
           console.log(this.top_mu_company)
@@ -239,5 +260,8 @@
   }
   div{
     color: #424242;
+  }
+  .lab_sty {
+    border-top:5px solid #f44336;
   }
 </style>
