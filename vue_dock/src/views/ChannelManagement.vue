@@ -17,7 +17,7 @@
         <mu-menu cover placement="bottom-end" style="margin-top: 8px;float: right;margin-right: 30px">
           <span style="float: left;margin-right: 20px;margin-top: 20px;font-size: 16px;color: #757575">诸葛找房</span>
           <mu-button icon fab style="max-width: 50px;max-height: 50px">
-             <img src="../assets/timg.jpg" style="max-width: 90px;">
+             <img src="../assets/timg.jpg" style="max-width: 52px;">
           </mu-button>
           <mu-list slot="content">
             <mu-list-item button>
@@ -38,8 +38,8 @@
 
             <mu-paper class="mu-paper" :z-depth="3" v-for="i in channels_left_label"
                       v-if="input_select_city && !input_select_channel" :key="i.id"
-                      @mouseover="mouseover(i.id)" @mouseout="mouseout" @click="OpenDetails"
-                      :class="{'lab_sty':label_style===i.id}">
+                      @mouseover="mouseover(i.id)" @mouseout="mouseout" @click="OpenDetails(i.id, i)"
+                      :class="{'lab_sty2':label_style===i.id, 'lab_sty':label_style_click===i.id}">
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242;overflow: hidden;
 text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-height:20px">{{i.source_name}}</p>
               <div style="float: right;height: 100%;margin-right: 30px;max-width: 40%;">
@@ -52,8 +52,8 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
 
             <mu-paper class="mu-paper" :z-depth="3" v-for="s in channels_left_label"  :key="s.city_name"
                       v-if="!input_select_city && input_select_channel || input_select_city && input_select_channel"
-                      @mouseover="mouseover(s.city_name)" @mouseout="mouseout" @click="OpenDetails"
-                      :class="{'lab_sty':label_style===s.city_name}">
+                      @mouseover="mouseover(s.city_name)" @mouseout="mouseout" @click="OpenDetails(s.city_name, s)"
+                      :class="{'lab_sty2':label_style===s.city_name, 'lab_sty':label_style_click===s.city_name}">
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{s.city_name}}</p>
               <div style="float: right;height: 100%;margin-right: 6%;max-width: 60%;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
@@ -81,12 +81,12 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <mu-paper :z-depth="3" style="height: 80px;width: 94%;margin:0 auto;margin-top: 10px;background: linear-gradient(to top right, #f50057, #283593, #1503EF);" class="color_paper">
                 <div style="float: left;margin-left: 20px;">
                   <p style="margin-top: 20px;float: left;color: #cfd8dc;">gov量</p><br>
-                  <p style="float: left;margin:0;font-size: 16px;color: #ffffff">22222</p>
+                  <p style="float: left;margin:0;font-size: 16px;color: #ffffff">{{ gov_num }}</p>
                 </div>
                 <div style="width: 1px;height: 20px;background-color: #ffffff;float: left;margin-left: 20px;margin-top: 16px"></div>
                 <div style="float: left;margin-left: 20px;">
                   <p style="margin-top: 20px;float: left;color: #cfd8dc;">bad量</p><br>
-                  <p style="float: left;margin:0;font-size: 16px;color: #ffffff">3435</p>
+                  <p style="float: left;margin:0;font-size: 16px;color: #ffffff">{{ bad_num }}</p>
                 </div>
 
                 <div style="float: right;width: 200px;height: 100%;margin-right: 30px;display: inline">
@@ -98,23 +98,25 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <div style="margin-top: 20px;width: 100%;height: 20px">
                 <p style="float: left;color: #bdbdbd;margin-left: 20px;">bad详情</p>
               </div>
-              <el-collapse v-model="activeNames" @change="handleChange" style="width: 94%;margin: 30px auto 0 auto">
-                <el-collapse-item v-for="i in 10">
+              <el-collapse style="width: 94%;margin: 30px auto 0 auto">
+                <el-collapse-item v-for="i in bad_info">
                   <template slot="title" >
                     <div style="width: 100%">
                       <div style="float: left;">
-                        <p style="font-size: 16px;color: #1503EF;float: left">17</p>
+                        <p style="font-size: 16px;color: #1503EF;float: left">{{ i.bad_type }}</p>
                         <p style="float: left;margin-top: 16px;margin-left: 5px">- bad类型</p>
                       </div>
                       <div style="float: right;margin-right: 20px">
-                        <p style="font-size: 16px;color: #1503EF;float: left">4321</p>
+                        <p style="font-size: 16px;color: #1503EF;float: left">{{ i.num }}</p>
                         <p style="float: left;margin-top: 16px;margin-left: 6px">- bad总量</p>
                       </div>
                     </div>
                   </template>
-                  <div style="float: left;font-family: 'PingFang SC';color: #ff5722;margin-top: -10px;width: 90%;margin-left: 20px">
-                    <p style="float: left;color: #bdbdbd;margin-right: 10px;margin-left: 10px">bad解析:</p>
-                    <p style="color: #ff3d00;float: left">小区名&室&总楼层&价格&城区&商圈 不能为空</p>
+                  <div style="float: left;color: #ff5722;margin-top: -10px;width: 100%;">
+                    <p style="color: #ff3d00;">
+                      <mu-button color="error" style="float: left;margin-bottom: 10px" small>原数据示例</mu-button>
+                      <span>小区名&室&总楼层&价格&城区&商圈 不能为空asdsadadsadasdasdsdadad</span>
+                    </p>
                   </div>
                 </el-collapse-item>
               </el-collapse>
@@ -147,7 +149,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
       data() {
         return {
           but: false,
-          progress: '',
+          progress: 0,
           activeIndex: '1',
           activeIndex2: '1',
           top_mu_company: '',
@@ -166,6 +168,10 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           select_citys: [],
           channels_left_label:[],
           label_style: false,
+          label_style_click: false,
+          gov_num: 0,
+          bad_info: [],
+          bad_num: 0,
           };
         },
 
@@ -175,7 +181,8 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
 
       methods: {
         //  bad占比动画
-        OpenDetails() {
+        OpenDetails(data) {
+          console.log(data)
           this.paper_details = true
           setTimeout(()=>this.progress=80 ,500);
         },
@@ -196,7 +203,6 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           if (channel || city) {
               this.$apidoc.post('internalpage/select_channel', {'channel': channel, 'city': city}).then( Response => {
                 this.channels_left_label = Response.data
-                console.log('ssssssssssddddddddd',this.channels_left_label)
               }).catch( error => {
                 console.log(error)
               })
@@ -212,9 +218,26 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           this.label_style = false
         },
 
-        OpenDetails() {
+        OpenDetails(po, data) {
           this.paper_details = true
+          this.label_style_click = po
           setTimeout(()=>this.progress=80 ,500);
+          data = {
+                  'company_id': data.company_id,
+                  'source':data.source,
+                  'city_py':data.city_py
+                 }
+          this.$apidoc.post('internalpage/bad_info', data).then( Response => {
+            console.log(Response)
+            this.gov_num = Response.data.gov.count
+            this.bad_info = Response.data.bad
+            let num = 0
+            for (let i of this.bad_info) {
+                num += i.num
+            }
+            this.bad_num = num
+            console.log(this.bad_num)
+          })
         },
         test() {
           console.log(this.top_mu_company)
@@ -263,5 +286,8 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
   }
   .lab_sty {
     border-top:5px solid #f44336;
+  }
+  .lab_sty2 {
+    border-top:5px solid #ffeb3b;
   }
 </style>

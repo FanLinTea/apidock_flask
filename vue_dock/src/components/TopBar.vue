@@ -5,7 +5,7 @@
         <!--头像-->
         <mu-menu cover placement="bottom-end" style="margin-top: 8px;float: right;margin-right: 30px">
           <mu-button icon fab style="max-width: 50px;max-height: 50px">
-            <img src="../assets/timg.jpg" style="max-width: 90px;">
+            <img src="../assets/1.jpg" style="max-width: 90px;">
           </mu-button>
           <mu-list slot="content">
             <mu-list-item button>

@@ -1,5 +1,6 @@
 import redis
 from DBUtils.PooledDB import PooledDB
+from settings.db_config import Mysql
 import threadpool
 import pymysql
 from settings import db_config
@@ -32,6 +33,16 @@ config = {
     'prod': ProdConfig
 }
 
+mysql_pool = {}
+for db_name, mysql_con in Mysql.items():
+    try:
+        pool = PooledDB(pymysql, 5, host=mysql_con.get('host'), user=mysql_con.get('user'),
+                        passwd=mysql_con.get('password'), port=mysql_con.get('port'), charset="utf8")
+    except Exception as e:
+        print('数据库配置出错', e)
+    mysql_pool[db_name] = pool
+print(mysql_pool)
+
 
 class Connect_mysql(object):
     '''
@@ -39,8 +50,6 @@ class Connect_mysql(object):
     实例化类的时候  输入想要连接的数据库
     只需要调取 thread_sql 方法  注意参数是列表
     '''
-
-
     _mysql_config = db_config.Mysql
 
     def __init__(self, mysql_name):
@@ -49,8 +58,7 @@ class Connect_mysql(object):
             raise Exception('你输入的数据库别名有误,或者你数据库未配置')
         #  连接池
         try:
-            self.pool = PooledDB(pymysql, 5, host=self.mysql.get('host'), user=self.mysql.get('user'),
-                                 passwd=self.mysql.get('password'), port=self.mysql.get('port'), charset="utf8")
+            self.pool = mysql_pool.get(mysql_name)
         except Exception as e:
             print(e)
 
@@ -67,9 +75,12 @@ class Connect_mysql(object):
             # print('查询出的数据是: ', data)
             cursor.close()
             self.mysql_data.append(data)
+            # a = 1/0
+            # print(a)
             return data
         except Exception as e:
-            pass
+            print(e)
+
         finally:
             cursor.close()
             conn.close()
