@@ -21,3 +21,8 @@ Mysql = {
         "charset": "utf8",
     }
 }
+
+
+Mongo = {
+    'dios': 'mongodb://dds-2ze2f6d07e237dd41500-pub.mongodb.rds.aliyuncs.com:3717/'
+}

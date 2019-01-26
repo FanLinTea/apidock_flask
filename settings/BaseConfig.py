@@ -1,9 +1,10 @@
 import redis
 from DBUtils.PooledDB import PooledDB
 from settings.db_config import Mysql
+from settings import db_config
 import threadpool
 import pymysql
-from settings import db_config
+import pymongo
 
 
 class BaseConfig(object):
@@ -123,3 +124,5 @@ class Connect_mysql(object):
                 self.thread_poll.putRequest(req)
             self.thread_poll.wait()
             return self.mysql_data
+
+
