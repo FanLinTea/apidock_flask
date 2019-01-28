@@ -1,6 +1,6 @@
 import redis
 from DBUtils.PooledDB import PooledDB
-from settings.db_config import Mysql
+from settings.db_config import Mysql, Mongo
 from settings import db_config
 import threadpool
 import pymysql
@@ -125,4 +125,12 @@ class Connect_mysql(object):
             self.thread_poll.wait()
             return self.mysql_data
 
+class Connect_mongo(object):
+    def __init__(self, mongo_name):
+        mongo = Mongo.get(mongo_name)
+        self.mongo = pymongo.MongoClient(mongo)
 
+    def Conn(self, db_name, tab_name):
+        db = self.mongo.get_database(db_name)
+        table = db.get_collection(tab_name)
+        return table

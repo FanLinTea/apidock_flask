@@ -57,7 +57,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{s.city_name}}</p>
               <div style="float: right;height: 100%;margin-right: 6%;max-width: 60%;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
-                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">更新数量</p>
+                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">入库数量</p>
                   <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{s.num}}</p>
                 </div>
                 <div style="display: inline-block;float: right;margin-left: 20px">
@@ -70,14 +70,26 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           </el-col>
           <el-col :span="9" style="height:100%;margin-left: 30px">
             <mu-paper :z-depth="3" style="height: calc(100% - 14px);width: 98%;overflow-y:auto;" v-if="paper_details">
-              <div style="float: left;margin-left: 20px;width: 90%">
-                  <p style="margin-top: 20px;float: left;color: #bdbdbd;">source_name</p>
-                  <div style="width: 100%;height: 6px;float: right"></div>
-                  <p style="float: left;margin:0;font-size: 16px;color: #424242;">quanzhou-ChuanglianfangchanRent</p>
+              <div style="width: 100%;margin-top: 20px;margin-left: auto;" class="block">
+                  <el-date-picker
+                    v-model="date_time"
+                    type="daterange"
+                    align="center"
+                    value-format="yyyy-MM-dd"
+                    unlink-panels
+                    range-separator="至"
+                    start-placeholder="2019-1-27"
+                    end-placeholder="2019-1-28"
+                    @change="select_date"
+                    :picker-options="pickerOptions2">
+                  </el-date-picker>
+                  <!--<p style="margin-top: 20px;float: left;color: #bdbdbd;">source_name</p>-->
+                  <!--<div style="width: 100%;height: 6px;float: right"></div>-->
+                  <!--<p style="float: left;margin:0;font-size: 16px;color: #424242;">quanzhou-ChuanglianfangchanRent</p>-->
               </div>
               <!--分割线-->
-              <div style="width: 94%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
-
+              <div style="width: 80%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
+              <!--<p style="margin-bottom: 0">最近一次数据</p>-->
               <mu-paper :z-depth="3" style="height: 80px;width: 94%;margin:0 auto;margin-top: 10px;background: linear-gradient(to top right, #f50057, #283593, #1503EF);" class="color_paper">
                 <div style="float: left;margin-left: 20px;">
                   <p style="margin-top: 20px;float: left;color: #cfd8dc;">gov量</p><br>
@@ -91,7 +103,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
 
                 <div style="float: right;width: 200px;height: 100%;margin-right: 30px;display: inline">
                   <p style="float: left;margin-left: 56px;margin-top: 34px;color: #ffffff;position:relative;">bad占比率</p>
-                  <p style="color: #ffffff;position:relative;right: 6px;top:20px;float: right">80%</p>
+                  <p style="color: #ffffff;position:relative;right: 6px;top:20px;float: right">{{bad_Proportion}}%</p>
                   <mu-circular-progress class="demo-circular-progress" mode="determinate" :value="progress" color="#ffffff" :stroke-width="8" :size="64" style="margin-top: 8px;position:relative;top:-42px;right: -10px;float: right"></mu-circular-progress>
                 </div>
               </mu-paper>
@@ -115,7 +127,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                   <div style="float: left;color: #ff5722;margin-top: -10px;width: 100%;">
                     <p style="color: #ff3d00;">
                       <mu-button color="error" style="float: left;margin-bottom: 10px" small>原数据示例</mu-button>
-                      <span>小区名&室&总楼层&价格&城区&商圈 不能为空asdsadadsadasdasdsdadad</span>
+                      <span style="margin-left: 10px;">{{i.bad_info}}</span>
                     </p>
                   </div>
                 </el-collapse-item>
@@ -172,20 +184,44 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           gov_num: 0,
           bad_info: [],
           bad_num: 0,
-          };
-        },
+          bad_Proportion: 0,
+          pickerOptions2: {
+            shortcuts: [{
+              text: '最近一周',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', [start, end]);
+              }
+            }, {
+              text: '最近一个月',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                picker.$emit('pick', [start, end]);
+              }
+            }, {
+              text: '最近三个月',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                picker.$emit('pick', [start, end]);
+              }
+            }]
+          },
+          date_time: '',
+        };
+      },
 
       created() {
         this.all_channels()
       },
 
       methods: {
-        //  bad占比动画
-        OpenDetails(data) {
-          console.log(data)
-          this.paper_details = true
-          setTimeout(()=>this.progress=80 ,500);
-        },
+
         //  所有渠道
         all_channels() {
           this.$apidoc.get('internalpage/all_channel').then( Response=> {
@@ -210,25 +246,26 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             this.$toast.error('请填写渠道名 or 城市');
           }
         },
-
+        // 左侧标签鼠标移入样式
         mouseover(data) {
             this.label_style = data
         },
+        // 左侧标签鼠标移出样式
         mouseout() {
           this.label_style = false
         },
-
+        //  bad 详情弹出框  and  bad比例
         OpenDetails(po, data) {
           this.paper_details = true
           this.label_style_click = po
-          setTimeout(()=>this.progress=80 ,500);
+          this.progress = 0
+          setTimeout(()=>this.progress=this.bad_Proportion ,500);
           data = {
                   'company_id': data.company_id,
                   'source':data.source,
                   'city_py':data.city_py
                  }
           this.$apidoc.post('internalpage/bad_info', data).then( Response => {
-            console.log(Response)
             this.gov_num = Response.data.gov.count
             this.bad_info = Response.data.bad
             let num = 0
@@ -236,8 +273,12 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                 num += i.num
             }
             this.bad_num = num
-            console.log(this.bad_num)
+            this.bad_Proportion = parseInt(this.bad_num/(this.bad_num+this.gov_num)*100)
           })
+        },
+        //  时间选择器
+        select_date() {
+          console.log(this.date_time)
         },
         test() {
           console.log(this.top_mu_company)

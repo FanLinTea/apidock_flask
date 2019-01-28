@@ -1,8 +1,9 @@
 from apps.InternalPage.internalPage_Blueprint import internalpage
-from settings.BaseConfig import Connect_mysql
+from settings.BaseConfig import Connect_mysql,Connect_mongo
 from flask import request
 from werkzeug.datastructures import CombinedMultiDict
 import json
+import arrow
 
 
 @internalpage.route('/all_channel', methods=['POST'])
@@ -54,13 +55,16 @@ def select_channel():
 
         data1 = db.select_sql(sql)
         city_py = data1[0]['city']
+        user_name = data1[0]['user_name']
 
         db = Connect_mysql('rent')
-        sql = f"select source_name,company_id,FROM_UNIXTIME(A.refresh_time, '%Y-%m-%d'),source as time,count(*) num " \
+        sql = f"select source_name,company_id,source,FROM_UNIXTIME(A.refresh_time, '%Y-%m-%d') as time,count(*) num " \
               f"from rent_{city_py}.house_rent_gov A where company_name = '{channel}' group by time order by  time desc LIMIT 1"
         data2 = db.select_sql(sql)
+        print(data2)
         data2[0]['city_name'] = city
         data2[0]['city_py'] = city_py
+        data2[0]['user_name'] = user_name
         info = json.dumps(data2)
         return info
 
@@ -109,7 +113,6 @@ def bad_info():
     request_info = request.values
     for i in request_info:
         request_info = eval(i)
-    print(request_info)
     company_id = request_info.get('company_id')
     city = request_info.get('city_py')
     source = request_info.get('source')
@@ -119,11 +122,23 @@ def bad_info():
     gov_count = db.select_sql(sql)
 
     db = Connect_mysql('bad_mysql')
-    sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad where company_id={company_id} and source={source} and updated > unix_timestamp((select FROM_UNIXTIME(tab.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as tab where company_id={company_id} and source={source} order by updated desc limit 1)) group by bad_type"
+    # sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad where company_id={company_id} and source={source} and updated > unix_timestamp((select FROM_UNIXTIME(tab.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as tab where company_id={company_id} and source={source} order by updated desc limit 1)) group by bad_type"
+    date_str = arrow.get(gov_count[0]['time'], "YYYY-MM-DD")
+    date_end = arrow.get(gov_count[0]['time'], "YYYY-MM-DD").shift(days=1)
+    date_str = date_str.timestamp - 28800
+    date_end = date_end.timestamp - 28800
+    sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad " \
+          f"where updated BETWEEN {date_str} and {date_end} and company_id={company_id} and source={source} group by bad_type"
     data = db.select_sql(sql)
-
     info = {}
-    info['bad'] = data
     info['gov'] = gov_count[0]
+
+    mongo = Connect_mongo('dios').Conn('zhuge_dm', 'api_bad_info')
+    for bad in data:
+        bad_info = mongo.find_one({'bad_type': bad['bad_type']})
+        bad['bad_info'] = bad_info['bad_info']
+
+    info['bad'] = data
+    print(info)
     info = json.dumps(info)
     return info

@@ -24,5 +24,5 @@ Mysql = {
 
 
 Mongo = {
-    'dios': 'mongodb://dds-2ze2f6d07e237dd41500-pub.mongodb.rds.aliyuncs.com:3717/'
+    'dios': 'mongodb://zhuge:7UgfAWbUtTKeMVGrSLwsHjB9xGjumnck@dds-2ze2f6d07e237dd41500-pub.mongodb.rds.aliyuncs.com:3717/admin'
 }
