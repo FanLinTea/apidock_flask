@@ -65,9 +65,7 @@ import arrow
 # t1 = arrow.now()
 # t2 = arrow.utcnow()
 # print(t1,t2)
-date_str = arrow.utcnow()
-date = date_str.utctimetuple()
-print(date_str)
-
-1548633600
-1548604800
+timeoo = "2019-02-13"
+t = arrow.get(timeoo, "YYYY-MM-DD")
+print(t)
+print(t.timestamp - 28800)

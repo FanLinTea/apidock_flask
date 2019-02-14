@@ -52,8 +52,11 @@ def select_channel():
         db = Connect_mysql('dm')
         sql = f'select distinct(source_name),service_type,user_name,city,company_id,details_key,city_name,ctime' \
               f' from zhuge_dm.city_source where is_dock=1 and city_name="{city}" and source_name="{channel}"'
-
         data1 = db.select_sql(sql)
+        if not data1:
+            mess = {'flag': 2, 'message': '渠道没有此城市数据'}
+            mess = json.dumps(mess)
+            return mess
         city_py = data1[0]['city']
         user_name = data1[0]['user_name']
 
@@ -61,7 +64,6 @@ def select_channel():
         sql = f"select source_name,company_id,source,FROM_UNIXTIME(A.refresh_time, '%Y-%m-%d') as time,count(*) num " \
               f"from rent_{city_py}.house_rent_gov A where company_name = '{channel}' group by time order by  time desc LIMIT 1"
         data2 = db.select_sql(sql)
-        print(data2)
         data2[0]['city_name'] = city
         data2[0]['city_py'] = city_py
         data2[0]['user_name'] = user_name
@@ -96,6 +98,7 @@ def select_channel():
                 if source == city['details_key']:
                     city_info['city_py'] = city['city']
                     city_info['city_name'] = city['city_name']
+                    city_info['user_name'] = city['user_name']
                     citys.append(city['city_name'])
                     info.append(city_info)
                     break
@@ -139,6 +142,44 @@ def bad_info():
         bad['bad_info'] = bad_info['bad_info']
 
     info['bad'] = data
-    print(info)
     info = json.dumps(info)
     return info
+
+@internalpage.route('/select_time', methods=['POST'])
+def select_time():
+    request_info = request.values
+    for i in request_info:
+        request_info = eval(i)
+    start_time = request_info.get('time')[0]
+    start_time = arrow.get(start_time, "YYYY-MM-DD")
+    start_time = start_time.timestamp - 28800
+    ent_time = request_info.get('time')[1]
+    ent_time = arrow.get(ent_time, "YYYY-MM-DD")
+    ent_time = ent_time.timestamp - 28800
+    city = request_info.get('data').get('city_py')
+    source = request_info.get('data').get('source')
+    company_id = request_info.get('data').get('company_id')
+
+    db = Connect_mysql('rent')
+    sql = f'select count(*) as count from rent_{city}.house_rent_gov where company_id={company_id} and source={source} and refresh_time between {start_time} and {ent_time}'
+    gov_num = db.select_sql(sql)
+    print(gov_num)
+    info = {}
+    info['gov'] = gov_num[0]
+
+    db = Connect_mysql('bad_mysql')
+    sql = f"select bad_type,count(1) as num from rent_{city}.house_rent_bad as bad " \
+          f"where updated BETWEEN {start_time} and {ent_time} and company_id={company_id} and source={source} group by bad_type"
+    data = db.select_sql(sql)
+
+    mongo = Connect_mongo('dios').Conn('zhuge_dm', 'api_bad_info')
+    for bad in data:
+        bad_info = mongo.find_one({'bad_type': bad['bad_type']})
+        bad['bad_info'] = bad_info['bad_info']
+
+    info['bad'] = data
+    info = json.dumps(info)
+    return info
+    # timeoo = "2019-02-13"
+    # t = arrow.get(timeoo, "YYYY-MM-DD")
+    # print(t.timestamp - 28800)

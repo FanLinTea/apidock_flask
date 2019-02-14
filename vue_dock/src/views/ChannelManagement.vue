@@ -78,8 +78,8 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                     value-format="yyyy-MM-dd"
                     unlink-panels
                     range-separator="至"
-                    start-placeholder="2019-1-27"
-                    end-placeholder="2019-1-28"
+                    :start-placeholder="start_time"
+                    :end-placeholder="ent_time"
                     @change="select_date"
                     :picker-options="pickerOptions2">
                   </el-date-picker>
@@ -142,10 +142,12 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <mu-button full-width color="#1503EF" v-else @click="but=false">下 载 bad 报 表</mu-button>
             </mu-flex>
             <mu-paper :z-depth="0" style="height: 30%;width: 100%;background-color: #ffffff;margin-left: 20px">
-
+              <p>{{user_name}}</p>
+              <p>{{source_name}}</p>
             </mu-paper>
             <mu-paper :z-depth="0" style="height: 30%;width: 100%;background-color: #ffffff;margin-left: 20px">
               <div style="width: 200px;height: 100%;"></div>
+
             </mu-paper>
 
           </el-col>
@@ -213,6 +215,11 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             }]
           },
           date_time: '',
+          start_time: null,
+          ent_time: null,
+          label_data: [],
+          user_name: '',
+          source_name: '',
         };
       },
 
@@ -238,7 +245,12 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           this.input_select_city = city
           if (channel || city) {
               this.$apidoc.post('internalpage/select_channel', {'channel': channel, 'city': city}).then( Response => {
-                this.channels_left_label = Response.data
+                if(Response.data.flag === 2) {
+                  this.$toast.error(Response.data.message);
+                }else {
+                  this.channels_left_label = Response.data
+                  console.log('===============',this.channels_left_label)
+                }
               }).catch( error => {
                 console.log(error)
               })
@@ -258,6 +270,10 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
         OpenDetails(po, data) {
           this.paper_details = true
           this.label_style_click = po
+          this.label_data = data
+          this.user_name = data.user_name
+          this.source_name = data.source_name
+          console.log('label_style_click:',  this.label_style_click, data)
           this.progress = 0
           setTimeout(()=>this.progress=this.bad_Proportion ,500);
           data = {
@@ -266,8 +282,11 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                   'city_py':data.city_py
                  }
           this.$apidoc.post('internalpage/bad_info', data).then( Response => {
+            console.log(Response.data)
             this.gov_num = Response.data.gov.count
             this.bad_info = Response.data.bad
+            this.start_time = Response.data.gov.time
+            this.ent_time = Response.data.gov.time
             let num = 0
             for (let i of this.bad_info) {
                 num += i.num
@@ -279,6 +298,18 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
         //  时间选择器
         select_date() {
           console.log(this.date_time)
+          let time = {'time': this.date_time, 'data': this.label_data}
+          console.log(time)
+          this.$apidoc.post('internalpage/select_time', time).then( Response => {
+            this.gov_num = Response.data.gov.count
+            let num = 0
+            for (let i of Response.data.bad) {
+                num += i.num
+            }
+            this.bad_num = num
+            this.bad_info = Response.data.bad
+            this.bad_Proportion = parseInt(this.bad_num/(this.bad_num+this.gov_num)*100)
+          })
         },
         test() {
           console.log(this.top_mu_company)
