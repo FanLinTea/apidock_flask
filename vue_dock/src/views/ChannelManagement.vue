@@ -57,7 +57,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{s.city_name}}</p>
               <div style="float: right;height: 100%;margin-right: 6%;max-width: 60%;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
-                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">入库数量</p>
+                  <p style="margin-top: 14px;float: right;color: #bdbdbd;">上线总量</p>
                   <p style="float: bottom;margin-top: 42px;font-size: 16px;color: #424242">{{s.num}}</p>
                 </div>
                 <div style="display: inline-block;float: right;margin-left: 20px">
@@ -92,7 +92,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <!--<p style="margin-bottom: 0">最近一次数据</p>-->
               <mu-paper :z-depth="3" style="height: 80px;width: 94%;margin:0 auto;margin-top: 10px;background: linear-gradient(to top right, #f50057, #283593, #1503EF);" class="color_paper">
                 <div style="float: left;margin-left: 20px;">
-                  <p style="margin-top: 20px;float: left;color: #cfd8dc;">gov量</p><br>
+                  <p style="margin-top: 20px;float: left;color: #cfd8dc;">上线数量</p><br>
                   <p style="float: left;margin:0;font-size: 16px;color: #ffffff">{{ gov_num }}</p>
                 </div>
                 <div style="width: 1px;height: 20px;background-color: #ffffff;float: left;margin-left: 20px;margin-top: 16px"></div>
@@ -126,7 +126,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                   </template>
                   <div style="float: left;color: #ff5722;margin-top: -10px;width: 100%;">
                     <p style="color: #ff3d00;">
-                      <mu-button color="error" style="float: left;margin-bottom: 10px" small>原数据示例</mu-button>
+                      <mu-button color="error" style="float: left;margin-bottom: 10px" small @click="open_bad_info(i.bad_type)">原数据示例</mu-button>
                       <span style="margin-left: 10px;">{{i.bad_info}}</span>
                     </p>
                   </div>
@@ -141,18 +141,104 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <mu-button full-width color="blueGrey700"  v-if="!but" @click="but=true">查 询 全 城 市 bad</mu-button>
               <mu-button full-width color="#1503EF" v-else @click="but=false">下 载 bad 报 表</mu-button>
             </mu-flex>
-            <mu-paper :z-depth="0" style="height: 30%;width: 100%;background-color: #ffffff;margin-left: 20px">
-              <p>{{user_name}}</p>
-              <p>{{source_name}}</p>
+            <mu-paper :z-depth="0" style="height:180px;width: 100%;background-color: #ffffff;margin-left: 20px">
+              <p style="margin: 0;padding-top: 20px;font-weight: bold;font-size: 15px">拥有者</p>
+              <div style="width: 20%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
+              <p style="margin: 0;margin-top: 5px;font-size: 15px">{{user_name}}</p>
+              <p style="margin: 0;margin-top:10px;padding-top: 20px;font-weight: bold;font-size: 15px">sourcename</p>
+              <div style="width: 30%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
+              <p style="margin: 0;margin-top: 5px;font-size: 15px">{{source_name}}</p>
             </mu-paper>
             <mu-paper :z-depth="0" style="height: 30%;width: 100%;background-color: #ffffff;margin-left: 20px">
               <div style="width: 200px;height: 100%;"></div>
 
             </mu-paper>
-
           </el-col>
-
         </el-row>
+
+         <el-dialog
+            :visible.sync="openSimple"
+            fullscreen
+            center>
+              <mu-data-table height="560" :columns="columns"  :data="tableData" fit>
+                <template slot-scope="scope">
+                  <td>{{scope.row.id}}</td>
+                  <td class="is-center">{{scope.row.bad_type}}</td>
+                  <td class="is-center">{{scope.row.source}}</td>
+                  <td class="is-center">{{scope.row.company_id}}</td>
+                  <td class="is-center">{{scope.row.source_name}}</td>
+                  <td class="is-center">{{scope.row.created}}</td>
+                  <td class="is-center">{{scope.row.updated}}</td>
+                  <td class="is-center">{{scope.row.company_name}}</td>
+                  <td class="is-center">{{scope.row.house_title}}</td>
+                  <td class="is-center">{{scope.row.borough_name}}</td>
+                  <td class="is-center">{{scope.row.borough_id}}</td>
+                  <td class="is-center">{{scope.row.borough_address}}</td>
+                  <td class="is-center">{{scope.row.cityarea_id}}</td>
+                  <td class="is-center">{{scope.row.cityarea2_id}}</td>
+                  <td class="is-center">{{scope.row.rent_type}}</td>
+                  <td class="is-center">{{scope.row.source_url}}</td>
+                  <td class="is-center">{{scope.row.house_desc}}</td>
+                  <td class="is-center">{{scope.row.tag_desc}}</td>
+                  <td class="is-center">{{scope.row.house_totalarea}}</td>
+                  <td class="is-center">{{scope.row.house_price}}</td>
+                  <td class="is-center">{{scope.row.house_toward}}</td>
+                  <td class="is-center">{{scope.row.house_room}}</td>
+                  <td class="is-center">{{scope.row.owner_name}}</td>
+                  <td class="is-center">{{scope.row.owner_phone}}</td>
+                  <td class="is-center">{{scope.row.source_owner}}</td>
+                  <td class="is-center">{{scope.row.service_phone}}</td>
+                  <td class="is-center">{{scope.row.house_pic_unit}}</td>
+                  <td class="is-center">{{scope.row.house_pic_layout}}</td>
+                  <td class="is-center">{{scope.row.house_hall}}</td>
+                  <td class="is-center">{{scope.row.house_toilet}}</td>
+                  <td class="is-center">{{scope.row.house_kitchen}}</td>
+                  <td class="is-center">{{scope.row.house_fitment}}</td>
+                  <td class="is-center">{{scope.row.house_relet}}</td>
+                  <td class="is-center">{{scope.row.house_floor}}</td>
+                  <td class="is-center">{{scope.row.house_topfloor}}</td>
+                  <td class="is-center">{{scope.row.app_url}}</td>
+                  <td class="is-center">{{scope.row.wap_url}}</td>
+                  <td class="is-center">{{scope.row.sex}}</td>
+                  <td class="is-center">{{scope.row.into_house}}</td>
+                  <td class="is-center">{{scope.row.pay_type}}</td>
+                  <td class="is-center">{{scope.row.pay_method}}</td>
+                  <td class="is-center">{{scope.row.tag}}</td>
+                  <td class="is-center">{{scope.row.comment}}</td>
+                  <td class="is-center">{{scope.row.house_number}}</td>
+                  <td class="is-center">{{scope.row.deposit}}</td>
+                  <td class="is-center">{{scope.row.house_configroom}}</td>
+                  <td class="is-center">{{scope.row.house_configpub}}</td>
+                  <td class="is-center">{{scope.row.is_ture}}</td>
+                  <td class="is-center">{{scope.row.is_fill}}</td>
+                  <td class="is-center">{{scope.row.is_contrast}}</td>
+                  <td class="is-center">{{scope.row.chain_url}}</td>
+                  <td class="is-center">{{scope.row.repeat_cnt}}</td>
+                  <td class="is-center">{{scope.row.property_right_years}}</td>
+                  <td class="is-center">{{scope.row.housing_years}}</td>
+                  <td class="is-center">{{scope.row.visit_total_num}}</td>
+                  <td class="is-center">{{scope.row.visit_num}}</td>
+                  <td class="is-center">{{scope.row.public_time}}</td>
+                  <td class="is-center">{{scope.row.visit_time}}</td>
+                  <td class="is-center">{{scope.row.entry_time}}</td>
+                  <td class="is-center">{{scope.row.lessor_name}}</td>
+                  <td class="is-center">{{scope.row.apartment_type}}</td>
+                  <td class="is-center">{{scope.row.apartment_house_type}}</td>
+                  <td class="is-center">{{scope.row.room_number}}</td>
+                  <td class="is-center">{{scope.row.floor_type}}</td>
+                  <td class="is-center">{{scope.row.metro_info}}</td>
+                  <td class="is-center">{{scope.row.house_price_scope}}</td>
+                  <td class="is-center">{{scope.row.service_charge}}</td>
+                  <td class="is-center">{{scope.row.housing_type}}</td>
+                  <td class="is-center">{{scope.row.room_price}}</td>
+                  <td class="is-center">{{scope.row.now_brand_apartment}}</td>
+                  <td class="is-center">{{scope.row.room_sold_count}}</td>
+                  <td class="is-center">{{scope.row.unit_count}}</td>
+
+                </template>
+              </mu-data-table>
+
+          </el-dialog>
       </div>
     </div>
 </template>
@@ -189,6 +275,24 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           bad_Proportion: 0,
           pickerOptions2: {
             shortcuts: [{
+              text: '昨天',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+                end.setTime(end.getTime() - 3600 * 1000 * 24 * 1);
+                picker.$emit('pick', [start, end]);
+              }
+            }, {
+              text: '前天',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
+                end.setTime(end.getTime() - 3600 * 1000 * 24 * 2);
+                picker.$emit('pick', [start, end]);
+              }
+            },{
               text: '最近一周',
               onClick(picker) {
                 const end = new Date();
@@ -215,11 +319,90 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             }]
           },
           date_time: '',
+          service_type: '',
           start_time: null,
           ent_time: null,
           label_data: [],
           user_name: '',
           source_name: '',
+          openSimple: false,
+          columns: [
+              { title: 'id',name: 'id' },
+              { title: 'bad_type', name: 'bad_type', align: 'center', sortable: true },
+              { title: 'source', name: 'source', align: 'center', sortable: true },
+              { title: 'company_id', name: 'company_id', align: 'center', sortable: true },
+              { title: 'source_name', name: 'source_name', align: 'center', sortable: true },
+              { title: 'created', name: 'created',  align: 'center', sortable: true },
+              { title: 'updated', name: 'updated',  align: 'center', sortable: true },
+              { title: 'company_name', name: 'company_name',  align: 'center', sortable: true },
+              { title: 'house_title', name: 'house_title',  align: 'center', sortable: true },
+              { title: 'borough_name', name: 'borough_name',  align: 'center', sortable: true },
+              { title: 'borough_id', name: 'borough_id',  align: 'center', sortable: true },
+              { title: 'borough_address', name: 'borough_address',  align: 'center', sortable: true },
+              { title: 'cityarea_id', name: 'cityarea_id',  align: 'center', sortable: true },
+              { title: 'cityarea2_id', name: 'cityarea2_id',  align: 'center', sortable: true },
+              { title: 'rent_type', name: 'rent_type',  align: 'center', sortable: true },
+              { title: 'source_url', name: 'source_url',  align: 'center', sortable: true },
+              { title: 'house_desc', name: 'house_desc',  align: 'center', sortable: true },
+              { title: 'tag_desc', name: 'tag_desc',  align: 'center', sortable: true },
+              { title: 'house_totalarea', name: 'house_totalarea',  align: 'center', sortable: true },
+              { title: 'house_price', name: 'house_price',  align: 'center', sortable: true },
+              { title: 'house_toward', name: 'house_toward',  align: 'center', sortable: true },
+              { title: 'house_room', name: 'house_room',  align: 'center', sortable: true },
+              { title: 'owner_name', name: 'owner_name',  align: 'center', sortable: true },
+              { title: 'owner_phone', name: 'owner_phone',  align: 'center', sortable: true },
+              { title: 'source_owner', name: 'source_owner',  align: 'center', sortable: true },
+              { title: 'service_phone', name: 'service_phone',  align: 'center', sortable: true },
+              { title: 'house_pic_unit', name: 'house_pic_unit',  align: 'center', sortable: true },
+              { title: 'house_pic_layout', name: 'house_pic_layout',  align: 'center', sortable: true },
+              { title: 'house_hall', name: 'house_hall',  align: 'center', sortable: true },
+              { title: 'house_toilet', name: 'house_toilet',  align: 'center', sortable: true },
+              { title: 'house_kitchen', name: 'house_kitchen',  align: 'center', sortable: true },
+              { title: 'house_fitment', name: 'house_fitment',  align: 'center', sortable: true },
+              { title: 'house_relet', name: 'house_relet',  align: 'center', sortable: true },
+              { title: 'house_floor', name: 'house_floor',  align: 'center', sortable: true },
+              { title: 'house_topfloor', name: 'house_topfloor',  align: 'center', sortable: true },
+              { title: 'app_url', name: 'app_url',  align: 'center', sortable: true },
+              { title: 'wap_url', name: 'wap_url',  align: 'center', sortable: true },
+              { title: 'sex', name: 'sex',  align: 'center', sortable: true },
+              { title: 'into_house', name: 'into_house',  align: 'center', sortable: true },
+              { title: 'pay_type', name: 'pay_type',  align: 'center', sortable: true },
+              { title: 'pay_method', name: 'pay_method',  align: 'center', sortable: true },
+              { title: 'tag', name: 'tag',  align: 'center', sortable: true },
+              { title: 'comment', name: 'comment',  align: 'center', sortable: true },
+              { title: 'house_number', name: 'house_number',  align: 'center', sortable: true },
+              { title: 'deposit', name: 'deposit',  align: 'center', sortable: true },
+              { title: 'house_configroom', name: 'house_configroom',  align: 'center', sortable: true },
+              { title: 'house_configpub', name: 'house_configpub',  align: 'center', sortable: true },
+              { title: 'is_ture', name: 'is_ture',  align: 'center', sortable: true },
+              { title: 'is_fill', name: 'is_fill',  align: 'center', sortable: true },
+              { title: 'is_contrast', name: 'is_contrast',  align: 'center', sortable: true },
+              { title: 'chain_url', name: 'chain_url',  align: 'center', sortable: true },
+              { title: 'repeat_cnt', name: 'repeat_cnt',  align: 'center', sortable: true },
+              { title: 'property_right_years', name: 'property_right_years',  align: 'center', sortable: true },
+              { title: 'housing_years', name: 'housing_years',  align: 'center', sortable: true },
+              { title: 'visit_total_num', name: 'visit_total_num',  align: 'center', sortable: true },
+              { title: 'visit_num', name: 'visit_num',  align: 'center', sortable: true },
+              { title: 'public_time', name: 'public_time',  align: 'center', sortable: true },
+              { title: 'visit_time', name: 'visit_time',  align: 'center', sortable: true },
+              { title: 'entry_time', name: 'entry_time',  align: 'center', sortable: true },
+              { title: 'lessor_name', name: 'lessor_name',  align: 'center', sortable: true },
+              { title: 'apartment_type', name: 'apartment_type',  align: 'center', sortable: true },
+              { title: 'apartment_house_type', name: 'apartment_house_type',  align: 'center', sortable: true },
+              { title: 'room_number', name: 'room_number',  align: 'center', sortable: true },
+              { title: 'floor_type', name: 'floor_type',  align: 'center', sortable: true },
+              { title: 'metro_info', name: 'metro_info',  align: 'center', sortable: true },
+              { title: 'house_price_scope', name: 'house_price_scope',  align: 'center', sortable: true },
+              { title: 'service_charge', name: 'service_charge',  align: 'center', sortable: true },
+              { title: 'housing_type', name: 'housing_type',  align: 'center', sortable: true },
+              { title: 'room_price', name: 'room_price',  align: 'center', sortable: true },
+              { title: 'now_brand_apartment', name: 'now_brand_apartment',  align: 'center', sortable: true },
+              { title: 'room_sold_count', name: 'room_sold_count',  align: 'center', sortable: true },
+              { title: 'unit_count', name: 'unit_count',  align: 'center', sortable: true },
+          ],
+          tableData: [
+
+          ]
         };
       },
 
@@ -249,7 +432,6 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                   this.$toast.error(Response.data.message);
                 }else {
                   this.channels_left_label = Response.data
-                  console.log('===============',this.channels_left_label)
                 }
               }).catch( error => {
                 console.log(error)
@@ -268,21 +450,21 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
         },
         //  bad 详情弹出框  and  bad比例
         OpenDetails(po, data) {
+          this.service_type = data.service_type
           this.paper_details = true
           this.label_style_click = po
           this.label_data = data
           this.user_name = data.user_name
           this.source_name = data.source_name
-          console.log('label_style_click:',  this.label_style_click, data)
           this.progress = 0
           setTimeout(()=>this.progress=this.bad_Proportion ,500);
           data = {
                   'company_id': data.company_id,
                   'source':data.source,
-                  'city_py':data.city_py
+                  'city_py':data.city_py,
+                  'service_type': this.service_type
                  }
           this.$apidoc.post('internalpage/bad_info', data).then( Response => {
-            console.log(Response.data)
             this.gov_num = Response.data.gov.count
             this.bad_info = Response.data.bad
             this.start_time = Response.data.gov.time
@@ -297,9 +479,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
         },
         //  时间选择器
         select_date() {
-          console.log(this.date_time)
           let time = {'time': this.date_time, 'data': this.label_data}
-          console.log(time)
           this.$apidoc.post('internalpage/select_time', time).then( Response => {
             this.gov_num = Response.data.gov.count
             let num = 0
@@ -309,6 +489,20 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             this.bad_num = num
             this.bad_info = Response.data.bad
             this.bad_Proportion = parseInt(this.bad_num/(this.bad_num+this.gov_num)*100)
+          })
+        },
+        open_bad_info(bad_type) {
+          this.openSimple = true
+          this.label_data.bad_type = bad_type
+          if (this.date_time) {
+            this.label_data.start_time = this.date_time[0]
+            this.label_data.ent_time = this.date_time[1]
+          }else {
+            this.label_data.start_time = this.start_time
+            this.label_data.ent_time = this.ent_time
+          }
+          this.$apidoc.post('internalpage/data_tab', this.label_data).then( Response => {
+            this.tableData = Response.data
           })
         },
         test() {

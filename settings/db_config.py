@@ -1,3 +1,9 @@
+# 旧实例城市
+old_city = ['bj', 'bd', 'cc', 'cd', 'cq', 'cs', 'cz', 'dg', 'dl', 'fz', 'guilin', 'gy', 'gz', 'heb', 'hf', 'hhht', 'hn',
+            'huizhou', 'hz', 'jh', 'jm', 'jn', 'km', 'ks', 'lf', 'ly', 'lz', 'nb', 'nc', 'nj', 'nn', 'nt', 'qd', 'qhd',
+            'qz', 'sh', 'sjz', 'su', 'sx', 'sy', 'sz', 'taiyuan', 'taizhou', 'tj', 'ts', 'weihai', 'wf', 'wh', 'wx',
+            'xa', 'xaxq', 'xm', 'xz', 'yc', 'yinchuan', 'yt', 'yz', 'zh', 'zs', 'zz']
+
 Mysql = {
     'dm': {
         "host": "mysql.zhugefang.com",
@@ -13,6 +19,20 @@ Mysql = {
         "port": 3306,
         "charset": "utf8",
     },
+    'sell_mysql': {
+        "host": "mysql.zhugefang.com",
+        "user": "data_r",
+        "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
+        "port": 9521,
+        "charset": "utf8",
+    },
+    'new_sell_mysql': {
+        "host": "mysql.zhugefang.com",
+        "user": "data_r",
+        "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
+        "port": 9511,
+        "charset": "utf8",
+    },
     'rent': {
         "host": "mysql.zhugefang.com",
         "user": "data_r",
@@ -21,7 +41,6 @@ Mysql = {
         "charset": "utf8",
     }
 }
-
 
 Mongo = {
     'dios': 'mongodb://zhuge:7UgfAWbUtTKeMVGrSLwsHjB9xGjumnck@dds-2ze2f6d07e237dd41500-pub.mongodb.rds.aliyuncs.com:3717/admin'

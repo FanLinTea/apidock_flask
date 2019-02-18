@@ -40,7 +40,7 @@ for db_name, mysql_con in Mysql.items():
         pool = PooledDB(pymysql, 5, host=mysql_con.get('host'), user=mysql_con.get('user'),
                         passwd=mysql_con.get('password'), port=mysql_con.get('port'), charset="utf8")
     except Exception as e:
-        print('数据库配置出错', e)
+        print('数据库配置出错', e, db_name)
     mysql_pool[db_name] = pool
 print(mysql_pool)
 

@@ -2,8 +2,10 @@ from apps.InternalPage.internalPage_Blueprint import internalpage
 from settings.BaseConfig import Connect_mysql,Connect_mongo
 from flask import request
 from werkzeug.datastructures import CombinedMultiDict
+from settings.db_config import old_city
 import json
 import arrow
+import time
 
 
 @internalpage.route('/all_channel', methods=['POST'])
@@ -30,8 +32,8 @@ def select_channel():
     form_data = request.values
     for i in form_data:
         form_data = eval(i)
-
     channel = form_data.get('channel')
+    # 如果用户传入的是 company_id 需要把字符串转换为Int
     try:
         channel = int(channel)
     except:
@@ -39,99 +41,219 @@ def select_channel():
     city = form_data.get('city')
     info = []
 
+    db = Connect_mysql('dm')
     if city and not channel:
-        sql = f'select distinct(source_name),service_type,user_name,city,company_id,details_key,city_name,FROM_UNIXTIME(ctime,"%Y-%m-%d")' \
-              f'as ctime,id from zhuge_dm.city_source where is_dock=1 and city_name="{city}"'
-
+        sql = f'select distinct(source_name),service_type,source_id as source,user_name,city as city_py,company_id,details_key,city_name,FROM_UNIXTIME(ctime,"%Y-%m-%d") as ctime,id from zhuge_dm.city_source where is_dock=1 and city_name="{city}"'
         db = Connect_mysql('dm')
         data = db.select_sql(sql)
         data = json.dumps(data)
         return data
 
+    rent_db = Connect_mysql('rent')
+    sell_db = Connect_mysql('sell_mysql')
+    new_sell_db = Connect_mysql('new_sell_mysql')
     if channel and city:
-        db = Connect_mysql('dm')
-        sql = f'select distinct(source_name),service_type,user_name,city,company_id,details_key,city_name,ctime' \
-              f' from zhuge_dm.city_source where is_dock=1 and city_name="{city}" and source_name="{channel}"'
+        if isinstance(channel, int):
+            sql = f'select distinct(source_name),service_type,user_name,city,company_id,source_id,details_key,city_name,ctime' \
+                  f' from zhuge_dm.city_source where is_dock=1 and city_name="{city}" and company_id="{channel}"'
+        else:
+            sql = f'select distinct(source_name),service_type,user_name,city,company_id,source_id,details_key,city_name,ctime' \
+                  f' from zhuge_dm.city_source where is_dock=1 and city_name="{city}" and source_name="{channel}"'
         data1 = db.select_sql(sql)
         if not data1:
             mess = {'flag': 2, 'message': '渠道没有此城市数据'}
             mess = json.dumps(mess)
             return mess
-        city_py = data1[0]['city']
-        user_name = data1[0]['user_name']
 
-        db = Connect_mysql('rent')
-        sql = f"select source_name,company_id,source,FROM_UNIXTIME(A.refresh_time, '%Y-%m-%d') as time,count(*) num " \
-              f"from rent_{city_py}.house_rent_gov A where company_name = '{channel}' group by time order by  time desc LIMIT 1"
-        data2 = db.select_sql(sql)
-        data2[0]['city_name'] = city
-        data2[0]['city_py'] = city_py
-        data2[0]['user_name'] = user_name
-        info = json.dumps(data2)
+        all_type_data = []
+        for i in data1:
+            # 提取善德表的字段 作为执行Gov表查询的条件
+            city_py = i['city']
+            city_name = i['city_name']
+            user_name = i['user_name']
+            service_type = i['service_type']
+            company_id = i['company_id']
+            source_id = i['source_id']
+            source_name = i['details_key']
+            # 由于二手房和租房分实例和库,所以根据service_type去不同库查询
+            if service_type == 1:
+                if city_py == 'bj':
+                    sql = f"select source_name,company_id,source,FROM_UNIXTIME(max(A.refresh_time), '%Y-%m-%d') as time,count(*) num " \
+                          f"from spider.house_sell_gov A where company_id = {company_id} and source = {source_id} " \
+                          f"and status=1 and source_type=5"
+                else:
+                    sql = f"select source_name,company_id,source,FROM_UNIXTIME(max(A.refresh_time), '%Y-%m-%d') as time,count(*) num " \
+                          f"from spider_{city_py}.house_sell_gov A where company_id = {company_id} and source = {source_id}     " \
+                          f"and status=1 and source_type=5"
+                #  新旧实例切库查询
+                if city_py in old_city:
+                    channel_data = sell_db.select_sql(sql)[0]
+                else:
+                    channel_data = new_sell_db.select_sql(sql)[0]
+                channel_data['service_type'] = service_type
+                channel_data['user_name'] = user_name
+                channel_data['city_py'] = city_py
+                channel_data['city_name'] = city_name
+                if not channel_data.get('source_name'):
+                    channel_data['source_name'] = source_name
+                # 同一渠道可能同时包含 二手房 和租房 把他们放入列表
+                all_type_data.append(channel_data)
+
+            else:
+                sql = f"select source_name,company_id,source,FROM_UNIXTIME(max(A.refresh_time), '%Y-%m-%d') as time,count(*) num " \
+                      f"from rent_{city_py}.house_rent_gov A where company_id = {company_id} and source = {source_id} " \
+                      f"and status=1 and source_type=5"
+                channel_data = rent_db.select_sql(sql)[0]
+                channel_data['service_type'] = service_type
+                channel_data['user_name'] = user_name
+                channel_data['city_py'] = city_py
+                channel_data['city_name'] = city_name
+                if not channel_data.get('source_name'):
+                    channel_data['source_name'] = source_name
+                all_type_data.append(channel_data)
+        info = json.dumps(all_type_data)
         return info
 
     if channel and not city:
         if isinstance(channel, int):
-            sql = f'select distinct(city_name),service_type,user_name,city,company_id,details_key ' \
+            sql = f'select distinct(city_name),service_type,user_name,city,company_id,details_key,source_id,city_en ' \
                   f'from zhuge_dm.city_source where is_dock=1 and company_id={channel}'
         else:
-            sql = f'select distinct(city_name),service_type,user_name,city,company_id,details_key ' \
+            sql = f'select distinct(city_name),service_type,user_name,city,company_id,details_key,source_id,city_en ' \
                   f'from zhuge_dm.city_source where is_dock=1 and source_name="{channel}"'
-
-        db = Connect_mysql('dm')
+        print(sql)
         data = db.select_sql(sql)
-
-        sqls = []
+        print(data)
+        all_type_data = []
+        old_city_sqls = []
+        new_city_sqls = []
+        rent_city_sqls = []
         for i in data:
-            city_sql = f"select source_name,company_id,source,FROM_UNIXTIME(A.refresh_time, '%Y-%m-%d') as time,count(*) num " \
-                       f"from rent_{i['city']}.house_rent_gov A where company_id = {i['company_id']} group by time order by time desc LIMIT 1"
-            sqls.append(city_sql)
-        db = Connect_mysql('rent')
-        data_all = db.thread_sql(sqls)
+            city_py = i['city']
+            city_name = i['city_name']
+            user_name = i['user_name']
+            service_type = i['service_type']
+            company_id = i['company_id']
+            source_id = i['source_id']
+            source_name = i['details_key']
+            if service_type == 1:
+                if city_py == 'bj':
+                    sql = f"select source_name,company_id,source,FROM_UNIXTIME(max(A.refresh_time), '%Y-%m-%d') as time,count(*) num " \
+                          f"from spider.house_sell_gov A where company_id = {company_id} and source = {source_id} and status=1 " \
+                          f"and source_type=5"
+                else:
+                    sql = f"select source_name,company_id,source,FROM_UNIXTIME(max(A.refresh_time), '%Y-%m-%d') as time,count(*) num " \
+                          f"from spider_{city_py}.house_sell_gov A where company_id = {company_id} and source = {source_id} and status=1 " \
+                          f"and source_type=5"
+                if city_py in old_city:
+                    old_city_sqls.append(sql)
+                else:
+                    new_city_sqls.append(sql)
 
-    citys = []
-    for city_info in data_all:
-        if city_info:
-            city_info = city_info[0]
-            source = city_info['source_name'].replace('/', '-')
-            for city in data:
-                if source == city['details_key']:
-                    city_info['city_py'] = city['city']
-                    city_info['city_name'] = city['city_name']
-                    city_info['user_name'] = city['user_name']
-                    citys.append(city['city_name'])
-                    info.append(city_info)
-                    break
+            else:
+                sql = f"select source_name,company_id,source,FROM_UNIXTIME(max(A.refresh_time), '%Y-%m-%d') as time,count(*) num " \
+                      f"from rent_{city_py}.house_rent_gov A where company_id = {company_id} and source = {source_id} and status=1 " \
+                      f"and source_type=5"
+                rent_city_sqls.append(sql)
 
-    for i in data:
-        if i['city_name'] not in citys:
-            info.append({'city_name': i['city_name'], 'source_name': '', 'time': '空', 'num': '空', 'source': '','company_id':''})
-    info = json.dumps(info)
+        if old_city_sqls:
+            old_city_data = sell_db.thread_sql(old_city_sqls)
+            for i in old_city_data:
+                i = i[0]
+                city_old = i.get('source_name')
+                for u in data:
+                    if u['city_en'] in city_old:
+                        i['city_py'] = u['city']
+                        i['service_type'] = u['service_type']
+                        i['city_name'] = u['city_name']
+                        i['user_name'] = u['user_name']
+                        all_type_data.append(i)
+                        break
 
-    return info
+        if new_city_sqls:
+            new_city_data = new_sell_db.thread_sql(new_city_sqls)
+            for i in new_city_data:
+                i = i[0]
+                city_old = i.get('source_name')
+                for u in data:
+                    if u['city_en'] in city_old:
+                        i['city_py'] = u['city']
+                        i['service_type'] = u['service_type']
+                        i['city_name'] = u['city_name']
+                        i['user_name'] = u['user_name']
+                        all_type_data.append(i)
+                        break
+
+        if rent_city_sqls:
+            rent_city_data = rent_db.thread_sql(rent_city_sqls)
+            for i in rent_city_data:
+                i = i[0]
+                city_old = i.get('source_name')
+                for u in data:
+                    if u['city_en'] in city_old:
+                        i['city_py'] = u['city']
+                        i['service_type'] = u['service_type']
+                        i['city_name'] = u['city_name']
+                        i['user_name'] = u['user_name']
+                        all_type_data.append(i)
+                        break
+
+        print(all_type_data)
+        all_type_data = json.dumps(all_type_data)
+        return all_type_data
 
 @internalpage.route('/bad_info', methods=['POST'])
 def bad_info():
-    '''查询bad量和信息'''
+    '''查询gov,bad量和信息'''
     request_info = request.values
     for i in request_info:
         request_info = eval(i)
+    print(request_info)
     company_id = request_info.get('company_id')
     city = request_info.get('city_py')
     source = request_info.get('source')
+    service_type = request_info.get('service_type')
 
-    sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time from rent_{city}.house_rent_gov as bad where company_id={company_id} and source={source} and refresh_time > unix_timestamp((select FROM_UNIXTIME(tab.refresh_time, '%Y-%m-%d') as time from rent_{city}.house_rent_gov as tab where company_id={company_id} and source={source} order by refresh_time desc limit 1))"
-    db = Connect_mysql('rent')
-    gov_count = db.select_sql(sql)
+    db = Connect_mysql('sell_mysql')
+    new_db = Connect_mysql('new_sell_mysql')
+    if service_type == 1:
+        if city == 'bj':
+            sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time " \
+                  f"from spider.house_sell_gov as bad where company_id={company_id} and source={source} " \
+                  f"and source_type=5 and status=1 " \
+                  f"and refresh_time > unix_timestamp((select FROM_UNIXTIME(tab.refresh_time, '%Y-%m-%d') as time " \
+                  f"from spider.house_sell_gov as tab where company_id={company_id} and source={source} order by refresh_time desc limit 1))"
+        else:
+            sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time " \
+                  f"from spider_{city}.house_sell_gov as bad where company_id={company_id} and source={source} " \
+                  f"and source_type=5 and status=1 " \
+                  f"and refresh_time > unix_timestamp((select FROM_UNIXTIME(tab.refresh_time, '%Y-%m-%d') as time " \
+                  f"from spider_{city}.house_sell_gov as tab where company_id={company_id} and source={source} " \
+                  f"order by refresh_time desc limit 1))"
+        if city in old_city:
+            gov_count = db.select_sql(sql)
+        else:
+            gov_count = new_db.select_sql(sql)
+    else:
+        sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time " \
+              f"from rent_{city}.house_rent_gov as bad where company_id={company_id} and source={source} " \
+              f"and source_type=5 and status=1 " \
+              f"and refresh_time > unix_timestamp((select FROM_UNIXTIME(tab.refresh_time, '%Y-%m-%d') as time " \
+              f"from rent_{city}.house_rent_gov as tab where company_id={company_id} and source={source} order by refresh_time desc limit 1))"
+        db = Connect_mysql('rent')
+        gov_count = db.select_sql(sql)
 
-    db = Connect_mysql('bad_mysql')
-    # sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad where company_id={company_id} and source={source} and updated > unix_timestamp((select FROM_UNIXTIME(tab.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as tab where company_id={company_id} and source={source} order by updated desc limit 1)) group by bad_type"
     date_str = arrow.get(gov_count[0]['time'], "YYYY-MM-DD")
     date_end = arrow.get(gov_count[0]['time'], "YYYY-MM-DD").shift(days=1)
     date_str = date_str.timestamp - 28800
     date_end = date_end.timestamp - 28800
-    sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad " \
-          f"where updated BETWEEN {date_str} and {date_end} and company_id={company_id} and source={source} group by bad_type"
+    if service_type == 1:
+        sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from spider_{city}.house_sell_bad as bad " \
+              f"where updated BETWEEN {date_str} and {date_end} and company_id={company_id} and source={source} group by bad_type"
+    else:
+        sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad " \
+              f"where updated BETWEEN {date_str} and {date_end} and company_id={company_id} and source={source} group by bad_type"
+    db = Connect_mysql('bad_mysql')
     data = db.select_sql(sql)
     info = {}
     info['gov'] = gov_count[0]
@@ -150,27 +272,59 @@ def select_time():
     request_info = request.values
     for i in request_info:
         request_info = eval(i)
+    print(request_info)
     start_time = request_info.get('time')[0]
     start_time = arrow.get(start_time, "YYYY-MM-DD")
     start_time = start_time.timestamp - 28800
     ent_time = request_info.get('time')[1]
     ent_time = arrow.get(ent_time, "YYYY-MM-DD")
     ent_time = ent_time.timestamp - 28800
+
+    if start_time == ent_time:
+        ent_time += 86400
     city = request_info.get('data').get('city_py')
     source = request_info.get('data').get('source')
     company_id = request_info.get('data').get('company_id')
+    service_type = request_info.get('data').get('service_type')
 
-    db = Connect_mysql('rent')
-    sql = f'select count(*) as count from rent_{city}.house_rent_gov where company_id={company_id} and source={source} and refresh_time between {start_time} and {ent_time}'
-    gov_num = db.select_sql(sql)
-    print(gov_num)
-    info = {}
-    info['gov'] = gov_num[0]
+    db = Connect_mysql('sell_mysql')
+    new_db = Connect_mysql('new_sell_mysql')
+    if service_type == 1:
+        if city == 'bj':
+            sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time " \
+                  f"from spider.house_sell_gov as bad where company_id={company_id} and source={source} " \
+                  f"and source_type=5 and status=1 " \
+                  f"and refresh_time between {start_time} and {ent_time}"
+        else:
+            sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time " \
+                  f"from spider_{city}.house_sell_gov as bad where company_id={company_id} and source={source} " \
+                  f"and source_type=5 and status=1 " \
+                  f"and refresh_time between {start_time} and {ent_time}"
+        print('二手房:', sql)
+        if city in old_city:
+            gov_count = db.select_sql(sql)
+        else:
+            gov_count = new_db.select_sql(sql)
+    else:
+        sql = f"select count(1) as count,FROM_UNIXTIME(bad.refresh_time, '%Y-%m-%d') as time " \
+              f"from rent_{city}.house_rent_gov as bad where company_id={company_id} and source={source} " \
+              f"and source_type=5 and status=1 " \
+              f"and refresh_time between {start_time} and {ent_time}"
+        print('NEW二手房', sql)
+        db = Connect_mysql('rent')
+        gov_count = db.select_sql(sql)
 
+    if service_type == 1:
+        sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from spider_{city}.house_sell_bad as bad " \
+              f"where updated BETWEEN {start_time} and {ent_time} and company_id={company_id} and source={source} group by bad_type"
+    else:
+        sql = f"select bad_type,count(1) as num,FROM_UNIXTIME(bad.updated, '%Y-%m-%d') as time from rent_{city}.house_rent_bad as bad " \
+              f"where updated BETWEEN {start_time} and {ent_time} and company_id={company_id} and source={source} group by bad_type"
+    print(sql)
     db = Connect_mysql('bad_mysql')
-    sql = f"select bad_type,count(1) as num from rent_{city}.house_rent_bad as bad " \
-          f"where updated BETWEEN {start_time} and {ent_time} and company_id={company_id} and source={source} group by bad_type"
     data = db.select_sql(sql)
+    info = {}
+    info['gov'] = gov_count[0]
 
     mongo = Connect_mongo('dios').Conn('zhuge_dm', 'api_bad_info')
     for bad in data:
@@ -180,6 +334,27 @@ def select_time():
     info['bad'] = data
     info = json.dumps(info)
     return info
-    # timeoo = "2019-02-13"
-    # t = arrow.get(timeoo, "YYYY-MM-DD")
-    # print(t.timestamp - 28800)
+
+@internalpage.route('/data_tab', methods=['POST'])
+def data_tab():
+    request_info = request.values
+    for i in request_info:
+        request_info = eval(i)
+    start_time = request_info.get('start_time')
+    start_time = arrow.get(start_time, "YYYY-MM-DD")
+    start_time = start_time.timestamp - 28800
+    ent_time = request_info.get('ent_time')
+    ent_time = arrow.get(ent_time, "YYYY-MM-DD")
+    ent_time = ent_time.timestamp - 28800
+    if start_time == ent_time:
+        ent_time += 86400
+    source = request_info.get('source')
+    company_id = request_info.get('company_id')
+    bad_type = request_info.get('bad_type')
+    city = request_info.get('city_py')
+
+    db = Connect_mysql('bad_mysql')
+    sql = f'select * from rent_{city}.house_rent_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
+    data = db.select_sql(sql)
+    data = json.dumps(data)
+    return data

@@ -4,6 +4,8 @@
     <list default="true" id="17e582ef-decd-451a-8e3a-301536a6c2fc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/BaseConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings/BaseConfig.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/db_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings/db_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tesst.py" beforeDir="false" afterPath="$PROJECT_DIR$/tesst.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vue_dock/src/views/ChannelManagement.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue_dock/src/views/ChannelManagement.vue" afterDir="false" />
     </list>
@@ -14,15 +16,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/apidoc_flask$manage.coverage" NAME="manage Coverage Results" MODIFIED="1550134634286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/apidoc_flask$manage.coverage" NAME="manage Coverage Results" MODIFIED="1550489167603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/apidoc_flask$ChannelManage.coverage" NAME="ChannelManage Coverage Results" MODIFIED="1548038104111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps/InternalPage/controller" />
-    <SUITE FILE_PATH="coverage/apidoc_flask$tesst.coverage" NAME="tesst Coverage Results" MODIFIED="1550116020107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/apidoc_flask$tesst.coverage" NAME="tesst Coverage Results" MODIFIED="1550291611716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1013614351">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="29" />
+          <entry key="project.closed" value="31" />
           <entry key="project.open.time.1" value="3" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.15" value="1" />
@@ -31,15 +33,16 @@
           <entry key="project.open.time.18" value="2" />
           <entry key="project.open.time.19" value="3" />
           <entry key="project.open.time.2" value="4" />
+          <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.21" value="2" />
           <entry key="project.open.time.23" value="1" />
           <entry key="project.open.time.27" value="1" />
-          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.30" value="1" />
-          <entry key="project.open.time.4" value="3" />
+          <entry key="project.open.time.4" value="4" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="30" />
+          <entry key="project.opened" value="33" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -68,8 +71,8 @@
           <entry key="dummy" value="32" />
           <entry key="html" value="414" />
           <entry key="js" value="749" />
-          <entry key="py" value="9335" />
-          <entry key="vue" value="11252" />
+          <entry key="py" value="11940" />
+          <entry key="vue" value="12439" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -77,9 +80,9 @@
           <entry key="HTML" value="414" />
           <entry key="JavaScript" value="749" />
           <entry key="PLAIN_TEXT" value="32" />
-          <entry key="Python" value="9325" />
-          <entry key="SQL" value="10" />
-          <entry key="Vue.js" value="11252" />
+          <entry key="Python" value="11908" />
+          <entry key="SQL" value="32" />
+          <entry key="Vue.js" value="12439" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -99,12 +102,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2266">
-              <caret line="103" column="25" lean-forward="true" selection-start-line="103" selection-start-column="25" selection-end-line="103" selection-end-column="25" />
+            <state relative-caret-position="-492">
+              <caret line="322" column="13" selection-start-line="322" selection-start-column="13" selection-end-line="322" selection-end-column="13" />
               <folding>
                 <element signature="e#0#65#0" expanded="true" />
-                <marker date="1550140104599" expanded="true" signature="2793:2796" ph="..." />
-                <marker date="1550140104599" expanded="true" signature="4620:4625" ph="..." />
+                <element signature="e#1421#1779#0" />
+                <marker date="1550489163363" expanded="true" signature="5403:5406" ph="..." />
+                <marker date="1550489163363" expanded="true" signature="9589:9594" ph="..." />
               </folding>
             </state>
           </provider>
@@ -113,7 +117,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings/AppConfig.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
+            <state relative-caret-position="454">
               <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
             </state>
           </provider>
@@ -122,8 +126,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tesst.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1540">
-              <caret line="70" column="25" selection-start-line="70" selection-start-column="20" selection-end-line="70" selection-end-column="25" />
+            <state relative-caret-position="44">
+              <caret line="2" column="18" selection-start-line="2" selection-end-line="3" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -131,8 +138,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vue_dock/src/views/ChannelManagement.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="145" column="30" selection-start-line="145" selection-start-column="30" selection-end-line="145" selection-end-column="30" />
+            <state relative-caret-position="353">
+              <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#mu-auto-complete#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -185,8 +192,15 @@
                 <element signature="n#style#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#mu-flex#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#1;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#2;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#3;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#mu-paper#1;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#mu-paper#1;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#template#0;n#mu-data-table#0;n#el-dialog#0;n#div#1;n#div#0;n#template#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -207,11 +221,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings/BaseConfig.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="559">
-              <caret line="131" selection-start-line="131" selection-end-line="131" />
+            <state relative-caret-position="88">
+              <caret line="110" selection-start-line="110" selection-end-line="110" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-                <marker date="1548643712851" expanded="true" signature="3572:3577" ph="..." />
+                <marker date="1550480812637" expanded="true" signature="1778:1779" ph="..." />
+                <marker date="1550480812637" expanded="true" signature="3581:3586" ph="..." />
               </folding>
             </state>
           </provider>
@@ -220,8 +235,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings/db_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+            <state relative-caret-position="298">
+              <caret line="28" column="19" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -253,9 +268,26 @@
       <find>progress</find>
       <find>至</find>
       <find>select_date</find>
-      <find>OpenDetails</find>
       <find>label_style</find>
+      <find>原数据</find>
+      <find>OpenDetails</find>
+      <find>label_data</find>
+      <find>bad_info</find>
+      <find>width=</find>
+      <find>width=&quot;180</find>
+      <find>width</find>
+      <find>width=&quot;180&quot;</find>
+      <find>is-right</find>
+      <find>pr</find>
+      <find>console</find>
+      <find>flag</find>
+      <find>channels_left_label</find>
+      <find>bad量</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>is-center</replace>
+    </replaceStrings>
     <dirStrings>
       <dir>D:\Git_por\gitlab\apidoc_flask\apps\Edit_Doc</dir>
       <dir>D:\Git_por\gitlab\apidoc_flask\vue_dock</dir>
@@ -309,9 +341,9 @@
         <option value="$PROJECT_DIR$/settings/AppConfig.py" />
         <option value="$PROJECT_DIR$/vue_dock/src/request.js" />
         <option value="$PROJECT_DIR$/vue_dock/src/main.js" />
+        <option value="$PROJECT_DIR$/tesst.py" />
         <option value="$PROJECT_DIR$/settings/db_config.py" />
         <option value="$PROJECT_DIR$/settings/BaseConfig.py" />
-        <option value="$PROJECT_DIR$/tesst.py" />
         <option value="$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py" />
         <option value="$PROJECT_DIR$/vue_dock/src/views/ChannelManagement.vue" />
       </list>
@@ -338,10 +370,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1234" />
-    <option name="y" value="125" />
-    <option name="width" value="1364" />
-    <option name="height" value="728" />
+    <option name="x" value="1358" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -349,6 +381,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -374,13 +407,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../My_script" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../spider_v4" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -526,21 +558,21 @@
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1716418" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17643923" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29098806" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.48968512" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21932682" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.27470142" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.29641694" />
+      <window_info anchor="bottom" id="Terminal" order="6" weight="0.29641694" />
+      <window_info anchor="bottom" id="TODO" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="bottom" id="TypeScript" order="13" weight="0.32899022" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -586,6 +618,11 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/vue_dock/src/http_head.js</url>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tesst.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -834,13 +871,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings/AppConfig.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vue_dock/src/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="880">
@@ -851,47 +881,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tesst.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="18" selection-start-line="2" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings/AppConfig.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/settings/BaseConfig.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="131" selection-start-line="131" selection-end-line="131" />
+        <state relative-caret-position="88">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1548643712851" expanded="true" signature="3572:3577" ph="..." />
+            <marker date="1550480812637" expanded="true" signature="1778:1779" ph="..." />
+            <marker date="1550480812637" expanded="true" signature="3581:3586" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/settings/db_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tesst.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1540">
-          <caret line="70" column="25" selection-start-line="70" selection-start-column="20" selection-end-line="70" selection-end-column="25" />
+        <state relative-caret-position="298">
+          <caret line="28" column="19" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2266">
-          <caret line="103" column="25" lean-forward="true" selection-start-line="103" selection-start-column="25" selection-end-line="103" selection-end-column="25" />
+        <state relative-caret-position="-492">
+          <caret line="322" column="13" selection-start-line="322" selection-start-column="13" selection-end-line="322" selection-end-column="13" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
-            <marker date="1550140104599" expanded="true" signature="2793:2796" ph="..." />
-            <marker date="1550140104599" expanded="true" signature="4620:4625" ph="..." />
+            <element signature="e#1421#1779#0" />
+            <marker date="1550489163363" expanded="true" signature="5403:5406" ph="..." />
+            <marker date="1550489163363" expanded="true" signature="9589:9594" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vue_dock/src/views/ChannelManagement.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="145" column="30" selection-start-line="145" selection-start-column="30" selection-end-line="145" selection-end-column="30" />
+        <state relative-caret-position="353">
+          <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#mu-auto-complete#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -944,8 +986,15 @@
             <element signature="n#style#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#mu-flex#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#2;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#3;n#mu-paper#0;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#mu-paper#1;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#mu-paper#1;n#el-col#2;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#template#0;n#mu-data-table#0;n#el-dialog#0;n#div#1;n#div#0;n#template#0;n#!!top" />
           </folding>
         </state>
       </provider>
