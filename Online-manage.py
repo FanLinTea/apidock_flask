@@ -8,4 +8,4 @@ from settings.db_config import Mysql, Online_Mysql
 app = create_app('prod')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', prod=5001)
+    app.run(host='0.0.0.0', port=5001, debug=True)
