@@ -64,13 +64,13 @@ Mysql = {
         # "port": 9521,
         "charset": "utf8",
     },
-    'new_sell_mysql': {
-        "host": "rr-2ze3u295t070j43yx.mysql.rds.aliyuncs.com",
-        "user": "data_r",
-        "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
-        # "port": 9511,
-        "charset": "utf8",
-    },
+    # 'new_sell_mysql': {
+    #     "host": "rr-2ze3u295t070j43yx.mysql.rds.aliyuncs.com",
+    #     "user": "data_r",
+    #     "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
+    #     # "port": 9511,
+    #     "charset": "utf8",
+    # },
     'rent': {
         "host": "rr-2zec7u22j7etr3nj8.mysql.rds.aliyuncs.com",
         "user": "data_r",
