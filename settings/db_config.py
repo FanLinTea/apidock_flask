@@ -51,7 +51,7 @@ Mysql = {
         "charset": "utf8",
     },
     'bad_mysql': {
-        "host": "rm-2ze7398d890nw9k12po.mysql.rds.aliyuncs.com",
+        "host": "rm-2ze7398d890nw9k12.mysql.rds.aliyuncs.com",
         "user": "data_r",
         "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
         "port": 3306,
