@@ -58,14 +58,14 @@ Mysql = {
         "charset": "utf8",
     },
     'sell_mysql': {
-        "host": "rr-2ze3u295t070j43yx.mysql.rds.aliyuncs.com",
+        "host": "rr-2ze7fny2kea5431cy.mysql.rds.aliyuncs.com",
         "user": "data_r",
         "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
         # "port": 9521,
         "charset": "utf8",
     },
     'new_sell_mysql': {
-        "host": "rr-2ze7fny2kea5431cy.mysql.rds.aliyuncs.com",
+        "host": "rr-2ze3u295t070j43yx.mysql.rds.aliyuncs.com",
         "user": "data_r",
         "password": "BQ6Qr1*dIh%##bK3zg5p0M6x@Mkqs&hg",
         # "port": 9511,
