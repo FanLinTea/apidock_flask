@@ -1,6 +1,6 @@
 import redis
 from DBUtils.PooledDB import PooledDB
-from settings.db_config import Mysql, Mongo
+from settings.db_config import Mysql, Mongo, Online_Mysql
 from settings import db_config
 import threadpool
 import pymysql
@@ -30,8 +30,8 @@ class ProdConfig(BaseConfig):
 
 
 config = {
-    'dev': DevConfig,
-    'prod': ProdConfig
+    'dev': DevConfig(),
+    'prod': ProdConfig()
 }
 
 mysql_pool = {}

@@ -55,6 +55,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                       @mouseover="mouseover(s.city_name)" @mouseout="mouseout" @click="OpenDetails(s.city_name, s)"
                       :class="{'lab_sty2':label_style===s.city_name, 'lab_sty':label_style_click===s.city_name}">
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{s.city_name}}</p>
+              <!--<img src="../assets/ershou.png" style="max-height: 70px;float: right">-->
               <div style="float: right;height: 100%;margin-right: 6%;max-width: 60%;">
                 <div style="display: inline-block;float: right;margin-left: 26px">
                   <p style="margin-top: 14px;float: right;color: #bdbdbd;">上线总量</p>
