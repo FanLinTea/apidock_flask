@@ -44,10 +44,10 @@ Online_Mysql = {
 
 Mysql = {
     'dm': {
-        "host": "101.201.119.240",
-        "user": "afe-rw",
-        "password": "HMugq0Fjz3bK67tHdSFottW2ORwSKpcJ",
-        # "port": 3306,
+        "host": "rm-2zed5a6vhd5qk06z5.mysql.rds.aliyuncs.com",
+        "user": "dm_rw",
+        "password": "CszwRk3breCsM5BCH0yDfHLorJM5QB5T",
+        "port": 3306,
         "charset": "utf8",
     },
     'bad_mysql': {
