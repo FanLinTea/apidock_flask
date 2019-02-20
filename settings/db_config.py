@@ -4,7 +4,7 @@ old_city = ['bj', 'bd', 'cc', 'cd', 'cq', 'cs', 'cz', 'dg', 'dl', 'fz', 'guilin'
             'qz', 'sh', 'sjz', 'su', 'sx', 'sy', 'sz', 'taiyuan', 'taizhou', 'tj', 'ts', 'weihai', 'wf', 'wh', 'wx',
             'xa', 'xaxq', 'xm', 'xz', 'yc', 'yinchuan', 'yt', 'yz', 'zh', 'zs', 'zz']
 
-Mysql = {
+Online_Mysql = {
     'dm': {
         "host": "mysql.zhugefang.com",
         "user": "dm_rw",
@@ -42,7 +42,7 @@ Mysql = {
     }
 }
 
-Online_Mysql = {
+Mysql = {
     'dm': {
         "host": "rm-2zed5a6vhd5qk06z5.mysql.rds.aliyuncs.com",
         "user": "dm_rw",
@@ -78,9 +78,11 @@ Online_Mysql = {
         # "port": 9532,
         "charset": "utf8",
     }
-
+}
+Online_Mongo = {
+    'dios': 'mongodb://zhuge:7UgfAWbUtTKeMVGrSLwsHjB9xGjumnck@dds-2ze2f6d07e237dd41500-pub.mongodb.rds.aliyuncs.com:3717/admin'
 }
 
 Mongo = {
-    'dios': 'mongodb://zhuge:7UgfAWbUtTKeMVGrSLwsHjB9xGjumnck@dds-2ze2f6d07e237dd41500-pub.mongodb.rds.aliyuncs.com:3717/admin'
+    'dios': 'mongodb://root:jG3iT9N3nNV8RRc8WCN0QtkGq5jyTK2Y@dds-2ze2f6d07e237dd42.mongodb.rds.aliyuncs.com:3717,dds-2ze2f6d07e237dd41.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-1100081'
 }
