@@ -1,5 +1,5 @@
 const dm_config = 'http://config.dapi.zhugefang.com/'
-const apidoc = 'http://localhost:5000/'
+const apidoc = 'http://39.106.255.168:5000/'
 
 export {
   dm_config,

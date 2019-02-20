@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17e582ef-decd-451a-8e3a-301536a6c2fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/db_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings/db_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_dock/src/http_head.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue_dock/src/http_head.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +21,7 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="33" />
-          <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.16" value="1" />
@@ -40,16 +38,16 @@
           <entry key="project.open.time.4" value="4" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="2" />
-          <entry key="project.opened" value="36" />
+          <entry key="project.opened" value="37" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="5" />
           <entry key="jpg" value="8" />
-          <entry key="js" value="30" />
+          <entry key="js" value="32" />
           <entry key="png" value="2" />
-          <entry key="py" value="98" />
+          <entry key="py" value="99" />
           <entry key="ts" value="2" />
           <entry key="vue" value="29" />
         </counts>
@@ -58,8 +56,8 @@
         <counts>
           <entry key="HTML" value="5" />
           <entry key="Image" value="10" />
-          <entry key="JavaScript" value="30" />
-          <entry key="Python" value="98" />
+          <entry key="JavaScript" value="32" />
+          <entry key="Python" value="99" />
           <entry key="TypeScript" value="2" />
           <entry key="Vue.js" value="29" />
         </counts>
@@ -68,17 +66,17 @@
         <counts>
           <entry key="dummy" value="32" />
           <entry key="html" value="414" />
-          <entry key="js" value="794" />
-          <entry key="py" value="12613" />
+          <entry key="js" value="801" />
+          <entry key="py" value="12622" />
           <entry key="vue" value="12467" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="414" />
-          <entry key="JavaScript" value="794" />
+          <entry key="JavaScript" value="801" />
           <entry key="PLAIN_TEXT" value="32" />
-          <entry key="Python" value="12581" />
+          <entry key="Python" value="12590" />
           <entry key="SQL" value="32" />
           <entry key="Vue.js" value="12467" />
         </counts>
@@ -100,8 +98,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="50" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
+            <state relative-caret-position="110">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vue_dock/src/http_head.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="22">
+              <caret line="1" column="37" lean-forward="true" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -109,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings/db_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="82" column="127" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="127" />
+            <state relative-caret-position="460">
+              <caret line="87" column="1" lean-forward="true" selection-start-line="87" selection-start-column="1" selection-end-line="87" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -119,7 +126,7 @@
         <entry file="file://$PROJECT_DIR$/settings/BaseConfig.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="415">
-              <caret line="135" column="43" lean-forward="true" selection-start-line="134" selection-start-column="8" selection-end-line="135" selection-end-column="43" />
+              <caret line="135" column="43" selection-start-line="134" selection-start-column="8" selection-end-line="135" selection-end-column="43" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -127,14 +134,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="381" lean-forward="true" selection-start-line="381" selection-end-line="381" />
+            <state relative-caret-position="328">
+              <caret line="385" lean-forward="true" selection-start-line="385" selection-end-line="385" />
               <folding>
                 <element signature="e#0#65#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vue_dock/config/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Online-manage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -243,11 +268,11 @@
         <option value="$PROJECT_DIR$/tesst.py" />
         <option value="$PROJECT_DIR$/vue_dock/config/prod.env.js" />
         <option value="$PROJECT_DIR$/vue_dock/config/index.js" />
-        <option value="$PROJECT_DIR$/vue_dock/src/http_head.js" />
-        <option value="$PROJECT_DIR$/Online-manage.py" />
         <option value="$PROJECT_DIR$/settings/db_config.py" />
         <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py" />
+        <option value="$PROJECT_DIR$/Online-manage.py" />
+        <option value="$PROJECT_DIR$/vue_dock/src/http_head.js" />
       </list>
     </option>
   </component>
@@ -283,7 +308,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -298,12 +322,30 @@
             </path>
             <path>
               <item name="apidoc_flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apidoc_flask" type="462c0819:PsiDirectoryNode" />
+              <item name="vue_dock" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apidoc_flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apidoc_flask" type="462c0819:PsiDirectoryNode" />
+              <item name="vue_dock" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apidoc_flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apidoc_flask" type="462c0819:PsiDirectoryNode" />
+              <item name="vue_dock" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apidoc_flask" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -481,7 +523,7 @@
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18123667" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18283582" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -490,7 +532,7 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.27470142" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="6" weight="0.44663382" />
+      <window_info anchor="bottom" id="Terminal" order="6" visible="true" weight="0.44625407" />
       <window_info anchor="bottom" id="TODO" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
@@ -830,13 +872,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Online-manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="39" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vue_dock/src/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -844,24 +879,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vue_dock/src/http_head.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="1" column="38" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vue_dock/src/request.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue_dock/config/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
     </entry>
@@ -879,37 +900,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
+    <entry file="file://$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="50" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
+        <state relative-caret-position="328">
+          <caret line="385" lean-forward="true" selection-start-line="385" selection-end-line="385" />
+          <folding>
+            <element signature="e#0#65#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings/db_config.py">
+    <entry file="file://$PROJECT_DIR$/Online-manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="82" column="127" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="127" />
+        <state relative-caret-position="198">
+          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/settings/BaseConfig.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="415">
-          <caret line="135" column="43" lean-forward="true" selection-start-line="134" selection-start-column="8" selection-end-line="135" selection-end-column="43" />
+          <caret line="135" column="43" selection-start-line="134" selection-start-column="8" selection-end-line="135" selection-end-column="43" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/InternalPage/controller/ChannelManage.py">
+    <entry file="file://$PROJECT_DIR$/settings/db_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="381" lean-forward="true" selection-start-line="381" selection-end-line="381" />
-          <folding>
-            <element signature="e#0#65#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="460">
+          <caret line="87" column="1" lean-forward="true" selection-start-line="87" selection-start-column="1" selection-end-line="87" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue_dock/config/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue_dock/src/http_head.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" column="37" lean-forward="true" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
         </state>
       </provider>
     </entry>
