@@ -1,5 +1,5 @@
 from apps.InternalPage.internalPage_Blueprint import internalpage
-from settings.BaseConfig import Connect_mysql,Connect_mongo
+from settings.BaseConfig import Connect_mysql, Connect_mongo
 from flask import request
 from werkzeug.datastructures import CombinedMultiDict
 from settings.db_config import old_city
@@ -121,9 +121,7 @@ def select_channel():
         else:
             sql = f'select distinct(city_name),service_type,user_name,city,company_id,details_key,source_id,city_en ' \
                   f'from zhuge_dm.city_source where is_dock=1 and source_name="{channel}"'
-        print(sql)
         data = db.select_sql(sql)
-        print(data)
         all_type_data = []
         old_city_sqls = []
         new_city_sqls = []
@@ -160,7 +158,10 @@ def select_channel():
             old_city_data = sell_db.thread_sql(old_city_sqls)
             for i in old_city_data:
                 i = i[0]
-                city_old = i.get('source_name')
+                if not i.get('source_name'):
+                    continue
+                else:
+                    city_old = i.get('source_name')
                 for u in data:
                     if u['city_en'] in city_old:
                         i['city_py'] = u['city']
@@ -174,7 +175,10 @@ def select_channel():
             new_city_data = new_sell_db.thread_sql(new_city_sqls)
             for i in new_city_data:
                 i = i[0]
-                city_old = i.get('source_name')
+                if not i.get('source_name'):
+                    continue
+                else:
+                    city_old = i.get('source_name')
                 for u in data:
                     if u['city_en'] in city_old:
                         i['city_py'] = u['city']
@@ -188,7 +192,10 @@ def select_channel():
             rent_city_data = rent_db.thread_sql(rent_city_sqls)
             for i in rent_city_data:
                 i = i[0]
-                city_old = i.get('source_name')
+                if not i.get('source_name'):
+                    continue
+                else:
+                    city_old = i.get('source_name')
                 for u in data:
                     if u['city_en'] in city_old:
                         i['city_py'] = u['city']
@@ -198,9 +205,9 @@ def select_channel():
                         all_type_data.append(i)
                         break
 
-        print(all_type_data)
         all_type_data = json.dumps(all_type_data)
         return all_type_data
+
 
 @internalpage.route('/bad_info', methods=['POST'])
 def bad_info():
@@ -258,14 +265,21 @@ def bad_info():
     info = {}
     info['gov'] = gov_count[0]
 
-    mongo = Connect_mongo('dios').Conn('zhuge_dm', 'api_bad_info')
+    if service_type == 1:
+        mongo = Connect_mongo('dios').Conn('zhuge_dm', 'sell_bad_info')
+    else:
+        mongo = Connect_mongo('dios').Conn('zhuge_dm', 'rent_bad_info')
     for bad in data:
         bad_info = mongo.find_one({'bad_type': bad['bad_type']})
-        bad['bad_info'] = bad_info['bad_info']
+        if bad_info:
+            bad['bad_info'] = bad_info['bad_info']
+        else:
+            bad['bad_info'] = f'Mongo缺少bad类型 {bad["bad_type"]}'
 
     info['bad'] = data
     info = json.dumps(info)
     return info
+
 
 @internalpage.route('/select_time', methods=['POST'])
 def select_time():
@@ -326,14 +340,21 @@ def select_time():
     info = {}
     info['gov'] = gov_count[0]
 
-    mongo = Connect_mongo('dios').Conn('zhuge_dm', 'api_bad_info')
+    if service_type == 1:
+        mongo = Connect_mongo('dios').Conn('zhuge_dm', 'sell_bad_info')
+    else:
+        mongo = Connect_mongo('dios').Conn('zhuge_dm', 'rent_bad_info')
     for bad in data:
         bad_info = mongo.find_one({'bad_type': bad['bad_type']})
-        bad['bad_info'] = bad_info['bad_info']
+        if bad_info:
+            bad['bad_info'] = bad_info['bad_info']
+        else:
+            bad['bad_info'] = f'Mongo缺少bad类型 {bad["bad_type"]}'
 
     info['bad'] = data
     info = json.dumps(info)
     return info
+
 
 @internalpage.route('/data_tab', methods=['POST'])
 def data_tab():
@@ -352,9 +373,13 @@ def data_tab():
     company_id = request_info.get('company_id')
     bad_type = request_info.get('bad_type')
     city = request_info.get('city_py')
+    service_type = request_info.get('service_type')
 
     db = Connect_mysql('bad_mysql')
-    sql = f'select * from rent_{city}.house_rent_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
+    if service_type == 1:
+        sql = f'select * from spider_{city}.house_sell_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
+    else:
+        sql = f'select * from rent_{city}.house_rent_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
     data = db.select_sql(sql)
     data = json.dumps(data)
     return data
