@@ -373,9 +373,13 @@ def data_tab():
     company_id = request_info.get('company_id')
     bad_type = request_info.get('bad_type')
     city = request_info.get('city_py')
+    service_type = request_info.get('service_type')
 
     db = Connect_mysql('bad_mysql')
-    sql = f'select * from rent_{city}.house_rent_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
+    if service_type == 1:
+        sql = f'select * from spider_{city}.house_sell_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
+    else:
+        sql = f'select * from rent_{city}.house_rent_bad WHERE company_id={company_id} and source={source} and bad_type={bad_type} and updated BETWEEN {start_time} and {ent_time} LIMIT 5'
     data = db.select_sql(sql)
     data = json.dumps(data)
     return data
