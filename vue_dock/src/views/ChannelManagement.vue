@@ -31,8 +31,8 @@
         <!---->
       </div>
       <!---->
-      <div style="padding: 20px;width: 100%;height: calc(100% - 70px);padding-bottom: 10px">
-        <el-row style="height: 100%;width: 100%">
+      <div style="padding: 20px;width: 100%;height: calc(100% - 70px);padding-bottom: 10px" >
+        <el-row style="height: 100%;width: 100%" v-loading="loading_all">
           <!--内容区域-->
           <el-col :span="7" style="overflow-y:auto;height:100%;">
 
@@ -69,7 +69,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             </mu-paper>
 
           </el-col>
-          <el-col :span="9" style="height:100%;margin-left: 30px">
+          <el-col :span="9" style="height:100%;margin-left: 30px" v-loading="loading_badinfo">
             <mu-paper :z-depth="3" style="height: calc(100% - 14px);width: 98%;overflow-y:auto;" v-if="paper_details">
               <div style="width: 100%;margin-top: 20px;margin-left: auto;" class="block">
                   <el-date-picker
@@ -134,15 +134,14 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                 </el-collapse-item>
               </el-collapse>
             </mu-paper>
-            <p v-else style="margin-top: 40px;color: #757575">请点击左侧标签</p>
           </el-col>
 
-          <el-col :span="7" style="height:100%;margin: 0;padding: 0;border: 0">
+          <el-col :span="7" style="height:100%;margin: 0;padding: 0;border: 0" >
             <mu-flex justify-content="center" align-items="center" style="margin-left: 20px;margin-right: -20px;margin-top: 12px">
-              <mu-button full-width color="blueGrey700"  v-if="!but" @click="but=true">查 询 全 城 市 bad</mu-button>
-              <mu-button full-width color="#1503EF" v-else @click="but=false">下 载 bad 报 表</mu-button>
+              <mu-button full-width color="blueGrey700"  v-if="!but && paper_details" @click="but=true">查 询 全 城 市 bad</mu-button>
+              <mu-button full-width color="#1503EF" v-if="but && paper_details" @click="but=false">下 载 bad 报 表</mu-button>
             </mu-flex>
-            <mu-paper :z-depth="0" style="height:180px;width: 100%;background-color: #ffffff;margin-left: 20px">
+            <mu-paper :z-depth="0" style="height:180px;width: 100%;background-color: #ffffff;margin-left: 20px" v-if="paper_details">
               <p style="margin: 0;padding-top: 20px;font-weight: bold;font-size: 15px">拥有者</p>
               <div style="width: 20%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
               <p style="margin: 0;margin-top: 5px;font-size: 15px">{{user_name}}</p>
@@ -150,7 +149,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
               <div style="width: 30%;height: 1px;background-color: #cfd8dc;display: inline-block"></div>
               <p style="margin: 0;margin-top: 5px;font-size: 15px">{{source_name}}</p>
             </mu-paper>
-            <mu-paper :z-depth="0" style="height: 30%;width: 100%;background-color: #ffffff;margin-left: 20px">
+            <mu-paper :z-depth="0" style="height: 30%;width: 100%;background-color: #ffffff;margin-left: 20px" v-if="paper_details">
               <div style="width: 200px;height: 100%;"></div>
 
             </mu-paper>
@@ -160,6 +159,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
          <el-dialog
             :visible.sync="openSimple"
             fullscreen
+            v-loading="loading_info"
             center>
               <mu-data-table height="560" :columns="columns"  :data="tableData" fit>
                 <template slot-scope="scope">
@@ -403,7 +403,10 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           ],
           tableData: [
 
-          ]
+          ],
+          loading_all: false,
+          loading_badinfo: false,
+          loading_info: false,
         };
       },
 
@@ -423,6 +426,9 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
         },
         //  搜索渠道
         search() {
+          this.loading_all = true
+          this.label_style_click = false
+          this.paper_details = false
           let channel = this.top_mu_company
           let city = this.top_mu_city
           this.input_select_channel = channel
@@ -433,9 +439,10 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                   this.$toast.error(Response.data.message);
                 }else {
                   this.channels_left_label = Response.data
+                  this.loading_all = false
                 }
               }).catch( error => {
-                console.log(error)
+                this.$toast.error(error)
               })
           }else {
             this.$toast.error('请填写渠道名 or 城市');
@@ -451,6 +458,8 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
         },
         //  bad 详情弹出框  and  bad比例
         OpenDetails(po, data) {
+          this.loading_badinfo = true
+          this.date_time = ''
           this.service_type = data.service_type
           this.paper_details = true
           this.label_style_click = po
@@ -466,6 +475,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
                   'service_type': this.service_type
                  }
           this.$apidoc.post('internalpage/bad_info', data).then( Response => {
+            console.log(Response)
             this.gov_num = Response.data.gov.count
             this.bad_info = Response.data.bad
             this.start_time = Response.data.gov.time
@@ -476,10 +486,12 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             }
             this.bad_num = num
             this.bad_Proportion = parseInt(this.bad_num/(this.bad_num+this.gov_num)*100)
+            this.loading_badinfo = false
           })
         },
         //  时间选择器
         select_date() {
+          this.loading_badinfo = true
           let time = {'time': this.date_time, 'data': this.label_data}
           this.$apidoc.post('internalpage/select_time', time).then( Response => {
             this.gov_num = Response.data.gov.count
@@ -490,9 +502,11 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             this.bad_num = num
             this.bad_info = Response.data.bad
             this.bad_Proportion = parseInt(this.bad_num/(this.bad_num+this.gov_num)*100)
+            this.loading_badinfo = false
           })
         },
         open_bad_info(bad_type) {
+          this.loading_info = true
           this.openSimple = true
           this.label_data.bad_type = bad_type
           if (this.date_time) {
@@ -504,6 +518,7 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
           }
           this.$apidoc.post('internalpage/data_tab', this.label_data).then( Response => {
             this.tableData = Response.data
+            this.loading_info = false
           })
         },
         test() {
