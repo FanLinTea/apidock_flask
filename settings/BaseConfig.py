@@ -39,12 +39,12 @@ for db_name, mysql_con in Mysql.items():
     try:
         pool = PooledDB(pymysql, 5, host=mysql_con.get('host'), user=mysql_con.get('user'),
                         passwd=mysql_con.get('password'), port=mysql_con.get('port'), charset="utf8")
-        print(db_name)
-        mysql_pool[db_name] = pool
     except Exception as e:
         print('数据库配置出错', e, db_name)
+    mysql_pool[db_name] = pool
 print(mysql_pool)
 
+thread_poll = threadpool.ThreadPool(5)
 
 class Connect_mysql(object):
     '''
@@ -65,7 +65,6 @@ class Connect_mysql(object):
             print(e)
 
         #  线程池
-        self.thread_poll = threadpool.ThreadPool(5)
         self.mysql_data = []
 
     def select_sql(self, sql=''):
@@ -116,14 +115,14 @@ class Connect_mysql(object):
         if 'select' in sqls[0]:
             request = threadpool.makeRequests(self.select_sql, sqls)
             for req in request:
-                self.thread_poll.putRequest(req)
-            self.thread_poll.wait()
+                thread_poll.putRequest(req)
+            thread_poll.wait()
             return self.mysql_data
         else:
             request = threadpool.makeRequests(self.other_sql, sqls)
             for req in request:
-                self.thread_poll.putRequest(req)
-            self.thread_poll.wait()
+                thread_poll.putRequest(req)
+            thread_poll.wait()
             return self.mysql_data
 
 class Connect_mongo(object):
