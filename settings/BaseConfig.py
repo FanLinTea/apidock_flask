@@ -44,6 +44,7 @@ for db_name, mysql_con in Mysql.items():
     mysql_pool[db_name] = pool
 print(mysql_pool)
 
+thread_poll = threadpool.ThreadPool(5)
 
 class Connect_mysql(object):
     '''
@@ -64,7 +65,6 @@ class Connect_mysql(object):
             print(e)
 
         #  线程池
-        self.thread_poll = threadpool.ThreadPool(5)
         self.mysql_data = []
 
     def select_sql(self, sql=''):
@@ -115,14 +115,14 @@ class Connect_mysql(object):
         if 'select' in sqls[0]:
             request = threadpool.makeRequests(self.select_sql, sqls)
             for req in request:
-                self.thread_poll.putRequest(req)
-            self.thread_poll.wait()
+                thread_poll.putRequest(req)
+            thread_poll.wait()
             return self.mysql_data
         else:
             request = threadpool.makeRequests(self.other_sql, sqls)
             for req in request:
-                self.thread_poll.putRequest(req)
-            self.thread_poll.wait()
+                thread_poll.putRequest(req)
+            thread_poll.wait()
             return self.mysql_data
 
 class Connect_mongo(object):

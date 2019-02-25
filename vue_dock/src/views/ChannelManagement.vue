@@ -53,7 +53,11 @@ text-overflow: ellipsis;white-space: nowrap;max-width: 40%;height: 20px;line-hei
             <mu-paper class="mu-paper" :z-depth="3" v-for="s in channels_left_label"  :key="s.city_name"
                       v-if="!input_select_city && input_select_channel || input_select_city && input_select_channel"
                       @mouseover="mouseover(s.city_name)" @mouseout="mouseout" @click="OpenDetails(s.city_name, s)"
-                      :class="{'lab_sty2':label_style===s.city_name, 'lab_sty':label_style_click===s.city_name}">
+                      :class="{'lab_sty2':label_style===s.city_name, 'lab_sty':label_style_click===s.city_name}"
+                      style="position: relative;">
+              <img src="../assets/公寓.png" style="max-height: 50px;position: absolute;left:46px;top: 6px;opacity: 0.6" v-if="s.service_type===4">
+              <img src="../assets/租房.png" style="max-height: 50px;position: absolute;left:46px;top: 6px;opacity: 0.6" v-if="s.service_type===3">
+              <img src="../assets/二手房.png" style="max-height: 50px;position: absolute;left:46px;top: 6px;opacity: 0.6" v-if="s.service_type===1">
               <p style="float: left;font-size: 18px;margin-left: 20px;margin-top: 28px;font-weight:bold;color: #424242">{{s.city_name}}</p>
               <!--<img src="../assets/ershou.png" style="max-height: 70px;float: right">-->
               <div style="float: right;height: 100%;margin-right: 6%;max-width: 60%;">
