@@ -44,7 +44,6 @@ def select_channel():
     db = Connect_mysql('dm')
     if city and not channel:
         sql = f'select distinct(source_name),service_type,source_id as source,user_name,city as city_py,company_id,details_key,city_name,FROM_UNIXTIME(ctime,"%Y-%m-%d") as ctime,id from zhuge_dm.city_source where is_dock=1 and city_name="{city}"'
-        db = Connect_mysql('dm')
         data = db.select_sql(sql)
         data = json.dumps(data)
         return data
